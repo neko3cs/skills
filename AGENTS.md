@@ -1,44 +1,53 @@
 # neko3cs Agent Skills
 
-## プロジェクトの目的
+## Project Objective
 
-neko3csのためのグローバルスキルを開発・管理すること
+To develop and manage global skills for the neko3cs environment.
 
-## コーディング規約
+## Coding Conventions
 
-SKILL.mdの作成方法は以下サイトの記載に準拠する
+The creation of `SKILL.md` must comply with the specifications described on the following site:
 
 <https://agentskills.io/specification>
 
 ---
 
-## SKILL.md 仕様詳細
+## SKILL.md Specification Details
 
-### 1. フロントマター (Frontmatter)
+### 1. Frontmatter
 
-`SKILL.md` の冒頭には必ずYAML形式のフロントマターを含める必要があります。
+The beginning of `SKILL.md` must always include YAML-formatted frontmatter.
 
-| フィールド      | 必須     | 説明                                                                                       |
-| :-------------- | :------- | :----------------------------------------------------------------------------------------- |
-| `name`          | **はい** | 1-64文字。小文字、数字、ハイフンのみ。**ディレクトリ名と完全に一致**させる必要があります。 |
-| `description`   | **はい** | 1-1024文字。スキルが何をするのか、どのような時に使用すべきかを記述します。                 |
-| `license`       | いいえ   | ライセンス名、または同梱のライセンスファイルへの参照。                                     |
-| `compatibility` | いいえ   | システム要件や依存パッケージ、ネットワークアクセスの要否など。                             |
-| `metadata`      | いいえ   | 任意のキー・バリュー形式の追加プロパティ。                                                 |
-| `allowed-tools` | いいえ   | 許可されたツールのリスト（スペース区切り）。                                               |
+| Field | Required | Description |
+| :--- | :--- | :--- |
+| `name` | **Yes** | 1-64 characters. Lowercase, numbers, and hyphens only. Must **exactly match the directory name**. |
+| `description` | **Yes** | 1-1024 characters. Describes what the skill does and when it should be used. |
+| `license` | No | License name or reference to an included license file. |
+| `compatibility` | No | System requirements, dependency packages, network access requirements, etc. |
+| `metadata` | No | Optional key-value pairs for additional properties. |
+| `allowed-tools` | No | List of allowed tools (space-separated). |
 
-### 2. ディレクトリ構成
+### 2. Directory Structure
 
-スキルはディレクトリ単位で管理され、以下の構造を持つことができます。
+Skills are managed on a directory basis and can have the following structure:
 
-- `SKILL.md` (必須）: スキルのルートに配置されるメインの指示書。
-- `scripts/` (任意）: エージェントが実行可能なスクリプト（Python, Bash, JS等）。
-- `references/` (任意）: 追加のドキュメントや補足情報。
-- `assets/` (任意）: テンプレート、画像、データスキーマなどの静的アセット。
+- `SKILL.md` (Required): Main instruction file placed at the root of the skill.
+- `scripts/` (Optional): Scripts executable by the agent (Python, Bash, JS, etc.).
+- `references/` (Optional): Additional documentation or supplementary information.
+- `assets/` (Optional): Static assets such as templates, images, data schemas, etc.
 
-### 3. バリデーションと命名規則
+### 3. Validation and Naming Conventions
 
-- **ディレクトリ名:** フロントマターの `name` フィールドと一致させる。
-- **文字制限:** 小文字、数字、ハイフンのみ使用可能。連続するハイフンや、先頭・末尾のハイフンは不可。
-- **ファイル参照:** スキル内の他ファイルを参照する場合は、スキルルートからの相対パスを使用する。
-- **コンテキスト最適化:** `SKILL.md` のボディ（Markdown部分）は、エージェントの処理能力を最適化するため500行以内を推奨。
+- **Directory Name:** Must match the `name` field in the frontmatter.
+- **Character Restrictions:** Only lowercase letters, numbers, and hyphens are allowed. Consecutive hyphens or hyphens at the beginning/end are not allowed.
+- **File References:** Use relative paths from the skill root when referencing other files within the skill.
+- **Context Optimization:** The body of `SKILL.md` (Markdown part) is recommended to be within 500 lines to optimize agent processing capability.
+
+---
+
+## Available Skills
+
+- **communication-rule**: Defines language rules for communication and documentation.
+- **git-rule**: Enforces user permission for git commit and push operations.
+- **hello-world**: A basic example skill for demonstration.
+- **tool-rule**: Restricts unauthorized tool usage and installation.
