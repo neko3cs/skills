@@ -12,18 +12,26 @@ license: MIT
 
 ## 実行順序と合格ライン
 
-1. **`npm run test`（/`pnpm test` 等プロジェクト固有） - UnitTest**
-   - プロジェクトにすでに導入されているテスティングライブラリ（ViteならVitest、その他はJestやそれぞれのフレームワーク）を使います。
-   - 新たにフレームワークを追加せず、既存ライブラリで `test` スクリプトが正常に動作するように調整してください。合格になるまで次フェーズへ進まず、必要な修正と再実行を続けてください。
-2. **`npm run test:e2e` - Playwright E2E**
-   - Playwrightを用いて、ログインやフォーム入力、画面遷移などのビジネスシナリオを再現するテストを記述・実行してください。
-   - 実行結果が成功するまで、失敗箇所を見直してテスト・実装を改善します。
-3. **`npm run test:coverage` - Branch Coverage**
-   - ブランチカバレッジを算出し、90%以上を合格とします。
-   - `vitest run --coverage` などプロジェクト固有のコマンドでブランチカバレッジが得られるように設定し、90% に達するまでテストを補強してください。
-4. **`npm run test:mutation` - Stryker Mutation**
-   - Strykerを導入し、ミューテーションスコア80%以上を合格とします。
-   - `stryker.conf.js` などで対象ファイルとテストコマンドを指定し、80% を超えるまでテスト品質を高める作業を継続してください。
+テストを始める前にコード品質の土台を整えるため、以下の手順をこの順序で必ず完了してください。多くのプロジェクトでは `package.json` に示すようなスクリプトが用意されています（例：`"format": "prettier --write ."`, `"lint": "eslint --cache ."`, `"typecheck": "tsc --noEmit -p ..."`）。
+
+1. **`pnpm run format`（`prettier --write .`） - Format**
+   - 最初に `prettier --write .` を実行して、コード全体の書式を整えます。
+   - 可能な限りこのコマンドをスクリプト経由で実行し、差分を無くします。戻ってくる変更はフォーマット作業のみとし、意図的な機能変更は含めないでください。
+2. **`pnpm run lint`（`eslint --cache .`） - Lint**
+   - `eslint --cache .` を使って静的解析と規約チェックを行い、すべての警告とエラーを解消してください。
+   - キャッシュを活用した実行で迅速に検出し、必要なら設定やルールを調整してプロジェクトのスタイルガイドに従わせてください。
+3. **`pnpm run typecheck`（`tsc --noEmit`） - Typecheck**
+   - `tsc --noEmit` を走らせ、型チェックが通過するまで修正を繰り返してください。必要であれば `tsconfig.node.json` や `tsconfig.web.json` を使った `typecheck:node` / `typecheck:web` 相当の確認も行います。
+4. **テストシーケンス**
+   - すべてのフォーマット・リンティング・型チェックが合格したら、以下のテストステップを順に実行します。各ステップは成功するまで繰り返し、失敗したステップに戻って再検証してください。
+   - **`npm run test`（または `pnpm test` 等） - UnitTest**
+     - 既存のテストライブラリ（Vitest、Jestなど）を利用し、新たなフレームワークを追加せずに `test` スクリプトが通るよう調整します。
+   - **`npm run test:e2e` - Playwright E2E**
+     - Playwrightでログインやフォーム、画面遷移などのシナリオを再現し、堅牢性を検証します。失敗箇所を修正し、成功を確認できるまで繰り返します。
+   - **`npm run test:coverage` - Branch Coverage**
+     - ブランチカバレッジを計測し、90%以上を合格とします。`vitest run --coverage` などを調整して達成してください。
+   - **`npm run test:mutation` - Stryker Mutation**
+     - Strykerでミューテーションテストを実行し、80%以上のスコアを目指します。`stryker.conf.js` 等で対象ファイルとテストコマンドを明示的に指定してください。
 
 ## 設定と補足
 
