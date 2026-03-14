@@ -50,4 +50,5 @@ Skills are managed on a directory basis and can have the following structure:
 - **communication-rule**: Defines language rules for communication and documentation.
 - **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
+- **test-dotnet-project**: Ensures .NET projects run `dotnet format`, xUnit tests, Playwright.NET e2e checks when applicable, and Stryker.NET mutation tests in sequence.
 - **tool-rule**: Restricts unauthorized tool usage and installation.
