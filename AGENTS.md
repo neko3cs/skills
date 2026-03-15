@@ -48,6 +48,7 @@ Skills are managed on a directory basis and can have the following structure:
 ## Available Skills
 
 - **communication-rule**: Defines language rules for communication and documentation.
+- **dotnet-scripting**: Guides .NET one-liners and small data-processing scripts using C# file-based apps and `dotnet run -`.
 - **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
 - **test-ts-project**: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds.
