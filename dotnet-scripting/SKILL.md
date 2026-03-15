@@ -1,7 +1,6 @@
 ---
 name: dotnet-scripting
 description: Shows how to process data with .NET one-liners and small scripts, especially for tasks often handled by quick Python scripts.
-author: [runceel](https://github.com/runceel)
 ---
 
 # データ処理スクリプト作成ガイド（C# file-based apps）
@@ -166,4 +165,5 @@ catch (Exception ex)
 
 ## オリジナル
 
-- [github-copilot-excel-lab/.github/skills/scripting-guide/SKILL.md at main · runceel/github-copilot-excel-lab](https://github.com/runceel/github-copilot-excel-lab/blob/main/.github/skills/scripting-guide/SKILL.md)
+- author: [runceel](https://github.com/runceel)
+- url: [github-copilot-excel-lab/.github/skills/scripting-guide/SKILL.md at main · runceel/github-copilot-excel-lab](https://github.com/runceel/github-copilot-excel-lab/blob/main/.github/skills/scripting-guide/SKILL.md)
