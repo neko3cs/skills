@@ -51,6 +51,7 @@ Skills are managed on a directory basis and can have the following structure:
 - **dotnet-scripting**: Guides .NET one-liners and small data-processing scripts using C# file-based apps and `dotnet run -`.
 - **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
+- **python-scripting**: Guides Python scripting through `uv`, requiring inline dependency metadata instead of virtual environments or direct package installation.
 - **test-ts-project**: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds.
 - **test-dotnet-project**: Ensures .NET projects run `dotnet format`, xUnit tests, Playwright.NET e2e checks when applicable, and Stryker.NET mutation tests in sequence.
 - **tool-rule**: Restricts unauthorized tool usage and installation.
