@@ -21,6 +21,7 @@ OpenCodeのグローバルスキルのパスは以下の通りです。
 ## 利用可能なスキル
 
 - **communication-rule**: 対話およびドキュメントで使用する言語ルールを規定します。
+- **dotnet-scripting**: C# file-based apps と `dotnet run -` を使い、.NET でワンライナーや小さなデータ処理スクリプトを実行する方法を案内します。
 - **git-rule**: Gitのコミットおよびプッシュ操作に対するユーザー許可を強制します。
 - **hello-world**: グローバルスキルの構造を示すための基本的なサンプルです。
 - **test-ts-project**: TypeScript プロジェクトで unit、e2e、coverage、mutation テストを順番に実行させます。
