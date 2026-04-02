@@ -54,4 +54,5 @@ Skills are managed on a directory basis and can have the following structure:
 - **python-scripting**: Guides Python scripting through `uv`, requiring inline dependency metadata instead of virtual environments or direct package installation.
 - **test-ts-project**: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds.
 - **test-dotnet-project**: Ensures .NET projects run `dotnet format`, xUnit tests, Playwright.NET e2e checks when applicable, and Stryker.NET mutation tests in sequence.
+- **resolve-issue**: Resolves a GitHub issue end-to-end: reads the issue, creates a branch, implements a fix, adds tests, and opens a pull request.
 - **tool-rule**: Restricts unauthorized tool usage and installation.
