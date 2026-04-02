@@ -27,4 +27,5 @@ OpenCodeのグローバルスキルのパスは以下の通りです。
 - **python-scripting**: `uv` を使って Python スクリプトを実行し、外部依存関係はインライン依存関係で宣言する運用を案内します。
 - **test-ts-project**: TypeScript プロジェクトで unit、e2e、coverage、mutation テストを順番に実行させます。
 - **test-dotnet-project**: .NET プロジェクトで `dotnet format`、xUnit テスト、Playwright.NET による e2e、Stryker.NET を順に実行させます。
+- **resolve-issue**: 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。
 - **tool-rule**: ツールの勝手な使用やインストールを制限します。
