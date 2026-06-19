@@ -52,6 +52,7 @@ Skills are managed on a directory basis and can have the following structure:
 - **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
 - **python-scripting**: Guides Python scripting through `uv`, requiring inline dependency metadata instead of virtual environments or direct package installation.
+- **test-as-tdd**: Drives implementation through the Red-Green-Refactor TDD cycle with TODO list decomposition, based on Takuto Wada's TDD Boot Camp talk.
 - **test-ts-project**: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds.
 - **test-dotnet-project**: Ensures .NET projects run `dotnet format`, xUnit tests, Playwright.NET e2e checks when applicable, and Stryker.NET mutation tests in sequence.
 - **test-ios-project**: Ensures iOS/Swift projects run SwiftFormat, SwiftLint, XCTest unit tests with branch coverage, XCUITest UI tests when applicable, property-based tests with SwiftCheck, and Muter mutation tests in sequence.
