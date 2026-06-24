@@ -15,3 +15,4 @@
 - **test-ios-project**: iOS/Swift プロジェクトで SwiftFormat・SwiftLint・XCTest・XCUITest・SwiftCheck（PBT）・Muter を順に実行させます。
 - **resolve-issue**: 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。
 - **tool-rule**: ツールの勝手な使用やインストールを制限します。
+- **update-agentsmd**: AGENTS.md（とCLAUDE.md）を作成・更新し、暗黙知・課題事項・引き継ぎ情報を含めてコンテキストゼロから作業を引き継げる状態にします。
