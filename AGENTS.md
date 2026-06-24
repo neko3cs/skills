@@ -58,3 +58,4 @@ Skills are managed on a directory basis and can have the following structure:
 - **test-ios-project**: Ensures iOS/Swift projects run SwiftFormat, SwiftLint, XCTest unit tests with branch coverage, XCUITest UI tests when applicable, property-based tests with SwiftCheck, and Muter mutation tests in sequence.
 - **resolve-issue**: Resolves a GitHub issue end-to-end: reads the issue, creates a branch, implements a fix, adds tests, and opens a pull request.
 - **tool-rule**: Restricts unauthorized tool usage and installation.
+- **update-agentsmd**: Creates or updates AGENTS.md (and a CLAUDE.md pointer) with tacit knowledge, open issues, and handoff context for zero-context continuation.
