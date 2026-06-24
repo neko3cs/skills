@@ -49,6 +49,7 @@ Skills are managed on a directory basis and can have the following structure:
 
 - **communication-rule**: Defines language rules for communication and documentation.
 - **create-github-issue**: Creates a GitHub Issue via `gh` using neko3cs/.github's ISSUE_TEMPLATE forms (bug report / feature request), filling all required fields.
+- **create-github-pullrequest**: Creates a GitHub Pull Request via `gh` using neko3cs/.github's pull_request_template.md, filled from the actual diff/commits.
 - **dotnet-scripting**: Guides .NET one-liners and small data-processing scripts using C# file-based apps and `dotnet run -`.
 - **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
