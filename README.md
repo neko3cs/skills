@@ -5,6 +5,7 @@
 ## 利用可能なスキル
 
 - **communication-rule**: 対話およびドキュメントで使用する言語ルールを規定します。
+- **create-github-issue**: `gh` コマンドとneko3cs/.githubのIssueテンプレート（バグ報告/機能要望）を使って、必須項目を埋めたGitHub Issueを作成します。
 - **dotnet-scripting**: C# file-based apps と `dotnet run -` を使い、.NET でワンライナーや小さなデータ処理スクリプトを実行する方法を案内します。
 - **git-rule**: Gitのコミットおよびプッシュ操作に対するユーザー許可を強制します。
 - **hello-world**: グローバルスキルの構造を示すための基本的なサンプルです。
