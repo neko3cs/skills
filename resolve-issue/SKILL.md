@@ -104,36 +104,7 @@ git commit -m "test: <issue番号>に対するテストを追加"
 
 ### 9. Pull Requestを作成する
 
-`gh pr create` を使用して、Pull Requestを作成します。
-
-```bash
-gh pr create \
-  --title "<PRのタイトル>" \
-  --body "$(cat <<'EOF'
-## 概要
-
-<変更内容の概要>
-
-## 関連Issue
-
-Closes #<issue番号>
-
-## 変更内容
-
-- <変更点1>
-- <変更点2>
-
-## テスト
-
-- <テスト内容1>
-- <テスト内容2>
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-EOF
-)"
-```
-
-PRのタイトルはIssueの内容を端的に表すものにしてください。
+`create-github-pullrequest` スキルに従ってPull Requestを作成してください。`neko3cs/.github` の最新のPRテンプレートを取得し、各セクションを実際の変更内容で埋め、関連Issue欄には `Closes #<issue番号>` を記載します。
 
 ## 注意事項
 
