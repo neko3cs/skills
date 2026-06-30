@@ -1,6 +1,6 @@
 ---
 name: dotnet-scripting
-description: Shows how to process data with .NET one-liners and small scripts, especially for tasks often handled by quick Python scripts.
+description: Process data or run ad-hoc .NET scripts by piping C# to `dotnet run -`, with `#:package` for external libraries. Use instead of Python for quick data tasks when .NET is available.
 ---
 
 # データ処理スクリプト作成ガイド（C# file-based apps）
