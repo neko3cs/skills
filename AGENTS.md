@@ -47,11 +47,9 @@ Skills are managed on a directory basis and can have the following structure:
 
 ## Available Skills
 
-- **communication-rule**: Defines language rules for communication and documentation.
 - **create-github-issue**: Creates a GitHub Issue via `gh` using neko3cs/.github's ISSUE_TEMPLATE forms (bug report / feature request), filling all required fields.
 - **create-github-pullrequest**: Creates a GitHub Pull Request via `gh` using neko3cs/.github's pull_request_template.md, filled from the actual diff/commits.
 - **dotnet-scripting**: Guides .NET one-liners and small data-processing scripts using C# file-based apps and `dotnet run -`.
-- **git-rule**: Enforces user permission for git commit and push operations.
 - **hello-world**: A basic example skill for demonstration.
 - **python-scripting**: Guides Python scripting through `uv`, requiring inline dependency metadata instead of virtual environments or direct package installation.
 - **test-as-tdd**: Drives implementation through the Red-Green-Refactor TDD cycle with TODO list decomposition, based on Takuto Wada's TDD Boot Camp talk.
@@ -59,5 +57,4 @@ Skills are managed on a directory basis and can have the following structure:
 - **test-dotnet-project**: Ensures .NET projects run `dotnet format`, xUnit tests, Playwright.NET e2e checks when applicable, and Stryker.NET mutation tests in sequence.
 - **test-ios-project**: Ensures iOS/Swift projects run SwiftFormat, SwiftLint, XCTest unit tests with branch coverage, XCUITest UI tests when applicable, property-based tests with SwiftCheck, and Muter mutation tests in sequence.
 - **resolve-issue**: Resolves a GitHub issue end-to-end: reads the issue, creates a branch, implements a fix, adds tests, and opens a pull request.
-- **tool-rule**: Restricts unauthorized tool usage and installation.
-- **update-agentsmd**: Creates or updates AGENTS.md (and a CLAUDE.md pointer) with tacit knowledge, open issues, and handoff context for zero-context continuation.
+- **update-agentsmd**: Creates or updates AGENTS.md (and a CLAUDE.md pointer) with tacit knowledge, open issues, incident log, and a dated handoff snapshot for zero-context continuation.

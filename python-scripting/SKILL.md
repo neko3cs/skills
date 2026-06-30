@@ -1,6 +1,6 @@
 ---
 name: python-scripting
-description: Guides Python scripting through uv, requiring inline dependency metadata instead of virtual environments or direct package installation.
+description: Run Python scripts via `uv run` with PEP 723 inline dependencies — no venvs, no `pip install`. Use when the user asks to process data or run a quick Python script.
 compatibility:
   - Requires `uv` on PATH
   - Uses Python through `uv run`
