@@ -1,6 +1,6 @@
 ---
 name: update-agentsmd
-description: Create or update AGENTS.md (plus `@AGENTS.md` CLAUDE.md pointer) for zero-context AI handoff. Adds tacit knowledge, open issues, incident log, and a dated handoff snapshot that aren't derivable from code. Use when asked to update AGENTS.md or prepare a handoff.
+description: Create or update AGENTS.md for zero-context AI handoff. Adds tacit knowledge, open issues, incident log, and a dated handoff snapshot that aren't derivable from code. Use when asked to update AGENTS.md or prepare a handoff.
 license: MIT
 ---
 
