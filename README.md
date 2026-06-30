@@ -14,4 +14,4 @@
 - **test-dotnet-project**: .NET プロジェクトで `dotnet format`、xUnit テスト、Playwright.NET による e2e、Stryker.NET を順に実行させます。
 - **test-ios-project**: iOS/Swift プロジェクトで SwiftFormat・SwiftLint・XCTest・XCUITest・SwiftCheck（PBT）・Muter を順に実行させます。
 - **resolve-issue**: 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。
-- **update-agentsmd**: AGENTS.md（とCLAUDE.mdポインタ）を作成・更新して別AIへの引き継ぎ状態を作ります。暗黙知・課題事項・事故集・スナップショットを追加・更新します。
+- **update-agentsmd**: AGENTS.md を作成・更新して別AIへの引き継ぎ状態を作ります。暗黙知・課題事項・事故集・スナップショットを追加・更新します。
