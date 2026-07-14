@@ -58,3 +58,4 @@ Skills are managed on a directory basis and can have the following structure:
 - **test-ios-project**: Ensures iOS/Swift projects run SwiftFormat, SwiftLint, XCTest unit tests with branch coverage, XCUITest UI tests when applicable, property-based tests with SwiftCheck, and Muter mutation tests in sequence.
 - **resolve-issue**: Resolves a GitHub issue end-to-end: reads the issue, creates a branch, implements a fix, adds tests, and opens a pull request.
 - **update-agentsmd**: Creates or updates AGENTS.md with tacit knowledge, open issues, incident log, and a dated handoff snapshot for zero-context continuation.
+- **reiwa-gyaru**: Rewrites Claude's chat responses in "Reiwa gyaru" (令和ギャル) speech style for casual, playful conversations.

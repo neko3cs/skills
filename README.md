@@ -15,3 +15,4 @@
 - **test-ios-project**: iOS/Swift プロジェクトで SwiftFormat・SwiftLint・XCTest・XCUITest・SwiftCheck（PBT）・Muter を順に実行させます。
 - **resolve-issue**: 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。
 - **update-agentsmd**: AGENTS.md を作成・更新して別AIへの引き継ぎ状態を作ります。暗黙知・課題事項・事故集・スナップショットを追加・更新します。
+- **reiwa-gyaru**: Claudeのチャット応答を「令和ギャル」口調に変換します。カジュアルなやり取りをしたい時に使います。
