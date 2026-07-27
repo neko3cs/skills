@@ -58,6 +58,7 @@ Skills are managed on a directory basis and can have the following structure:
 - **test-ios-project**: Ensures iOS/Swift projects run SwiftFormat, SwiftLint, XCTest unit tests with branch coverage, XCUITest UI tests when applicable, property-based tests with SwiftCheck, and Muter mutation tests in sequence.
 - **resolve-issue**: Resolves a GitHub issue end-to-end: reads the issue, creates a branch, implements a fix, adds tests, and opens a pull request.
 - **update-agentsmd**: Creates or updates AGENTS.md with tacit knowledge, open issues, incident log, and a dated handoff snapshot for zero-context continuation.
+- **update-planmd**: Writes or resumes PLAN.md — the in-flight work baton across sessions, tools, and machines, recording the chosen approach, the options already rejected, and the next step.
 - **design-docs**: Creates and maintains the four design documents (requirements / specification / architecture / design) from templates, routing later changes to the file that matches the change's update frequency.
 - **gyaru**: Rewrites Claude's chat responses in gyaru (ギャル) speech style. Two eras selectable via argument: `heisei` (default) and `reiwa`; era-specific rules live in `references/`.
 - **ojousama**: Rewrites Claude's chat responses in refined "ojousama" (お嬢様) speech style for elegant, polite conversations.
