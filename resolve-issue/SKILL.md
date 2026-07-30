@@ -29,17 +29,18 @@ compatibility: Requires git, gh CLI, and a test-capable project environment
 gh issue view <issue番号>
 ```
 
-### 2. Issue対応ブランチを作成する
+### 2. Issue対応ワークツリー・ブランチを作成する
 
-まず、mainブランチを最新の状態にしてから、Issue対応用のブランチを作成します。
+まず、ローカルの `AGENTS.md` に「ワークツリーを作らない」「ブランチを切らない」といった指示がないか確認してください。
+
+- 指示が無ければ、`EnterWorktree` ツールでワークツリーとブランチを作成します。`name` にはIssueの内容に応じて `fix/issue-<issue番号>` または `feature/issue-<issue番号>` など適切な名前を指定してください。
+- ローカル `AGENTS.md` がワークツリー作成を禁止している場合のみ、代わりに以下のようにカレントディレクトリ上でブランチを作成します。
 
 ```bash
 git switch main
 git pull origin main
 git switch -c fix/issue-<issue番号>
 ```
-
-ブランチ名はIssueの内容に応じて `fix/issue-<番号>` または `feature/issue-<番号>` など適切な名前にしてください。
 
 ### 3. 現在のテスト品質を把握する
 
