@@ -1,4 +1,4 @@
-# 参考資料: Issueテンプレート スナップショット（取得日: 2026-06-24）
+# 参考資料: Issueテンプレート スナップショット（取得日: 2026-07-31）
 
 出典: https://github.com/neko3cs/.github/tree/main/.github/ISSUE_TEMPLATE
 
@@ -12,18 +12,20 @@
 - `title`: `[Bug]: `
 - `labels`: `bug`
 
-| id | label | required |
-|---|---|---|
-| description | 説明 | ✅ |
-| steps | 再現手順 | ✅ |
-| expected | 期待する動作 | ✅ |
-| actual | 実際の動作 | ✅ |
-| environment | 環境情報 | - |
-| version | バージョン | ✅ |
-| related_files | 関連ファイル / 対象箇所 | - |
-| acceptance_criteria | 受け入れ条件 | ✅ |
-| out_of_scope | 対応スコープ外 | - |
-| additional_context | 補足情報 | - |
+| id | label | type | required |
+|---|---|---|---|
+| description | 説明 | textarea | ✅ |
+| steps | 再現手順 | textarea | ✅ |
+| expected | 期待する動作 | textarea | ✅ |
+| actual | 実際の動作 | textarea | ✅ |
+| environment | 環境情報 | textarea | - |
+| version | バージョン | input | ✅ |
+| related_files | 関連ファイル / 対象箇所 | textarea | - |
+| acceptance_criteria | 受け入れ条件 | textarea | ✅ |
+| out_of_scope | 対応スコープ外 | textarea | - |
+| severity | 影響度 | dropdown（高／中／低） | ✅ |
+| additional_context | 補足情報 | textarea | - |
+| confirmation | 確認事項（機密情報を含めていません） | checkboxes | ✅ |
 
 ## 機能要望（feature_request.yml）
 
@@ -31,15 +33,17 @@
 - `title`: `[Feature]: `
 - `labels`: `enhancement`
 
-| id | label | required |
-|---|---|---|
-| description | 説明 | ✅ |
-| motivation | 動機 / ユースケース | ✅ |
-| proposed_solution | 提案する解決策 | ✅ |
-| related_files | 関連ファイル / 対象箇所 | - |
-| acceptance_criteria | 受け入れ条件 | ✅ |
-| out_of_scope | 対応スコープ外 | - |
-| additional_context | 補足情報 | - |
+| id | label | type | required |
+|---|---|---|---|
+| description | 説明 | textarea | ✅ |
+| motivation | 動機 / ユースケース | textarea | ✅ |
+| proposed_solution | 提案する解決策 | textarea | ✅ |
+| alternatives | 代替案・検討したこと | textarea | - |
+| related_files | 関連ファイル / 対象箇所 | textarea | - |
+| acceptance_criteria | 受け入れ条件 | textarea | ✅ |
+| out_of_scope | 対応スコープ外 | textarea | - |
+| additional_context | 補足情報 | textarea | - |
+| confirmation | 確認事項（機密情報を含めていません） | checkboxes | ✅ |
 
 ## Issue本文の組み立て形式
 
@@ -55,4 +59,4 @@ GitHub Issue Formsは送信時に各フィールドを以下の形式でMarkdown
 {...}
 ```
 
-内容が無い任意フィールドは見出し自体を省略する。
+内容が無い任意フィールドは見出し自体を省略する。`checkboxes` タイプは見出し＋チェックボックスのリスト（例: `- [x] 機密情報（接続文字列・パスワード・シークレット等）を本文に含めていません`）として変換される。
