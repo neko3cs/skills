@@ -4,20 +4,20 @@
 
 各セクションに何を書くか／書かないかの判断は `SKILL.md` を見る。
 
-実例: https://github.com/neko3cs/umalog/blob/main/AGENTS.md
-
 ```markdown
 # AGENTS.md
 
 ## Key References
-- `docs/Design.md` — <役割>（最新でない場合は「コードを正とする」と明記）
+- `architecture.md`（design-docs 管理。配置先はプロジェクト依存）— 存在する場合のみ。最新でない場合は「コードを正とする」と明記
+- `specification.md` / `requirements.md` / `design.md` — 同上、必要な場合のみ
 - `PLAN.md` — <存在する場合のみポインタを置く>
 
 ## What This Project Is (and Is Not)
 - <非交渉事項／AIが提案してはいけないこと>
 
 ## Architecture
-- <採用している技術・パターンの要点のみ>
+<!-- design-docs スキルの architecture.md があればこのセクションは省略し、Key References の参照だけにする -->
+- <design-docs 未導入の場合のみ、採用している技術・パターンの要点を書く>
 
 ## Data Models / Domain Concepts
 - <ドメイン特有の用語・モデル関係>
