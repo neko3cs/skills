@@ -1,6 +1,6 @@
 ---
 name: update-agentsmd
-description: Create or update AGENTS.md so a zero-context AI can continue work. Interviews the user for tacit knowledge — non-obvious "why", implicit constraints, gotchas, incidents — that isn't derivable from code. Use when asked to update AGENTS.md or prepare a handoff.
+description: Create or update AGENTS.md so a zero-context AI can continue work. Mines the current conversation history for tacit knowledge — non-obvious "why", implicit constraints, gotchas, incidents — that isn't derivable from code, instead of interviewing the user. Use when asked to update AGENTS.md or prepare a handoff.
 license: MIT
 ---
 
@@ -10,11 +10,15 @@ license: MIT
 
 コンテキストゼロの別AIが読むだけで作業を継続できる `AGENTS.md` を作成・更新します。
 
-`AGENTS.md` には**決定論的で恒久的な情報だけ**を置きます。揺れる情報の逃し先はグローバルドクトリンのルーティング表に従い、着手中のものは `PLAN.md`、仕様変更や未解決課題は GitHub Issue へ回します。
+`AGENTS.md` には、コードや設計ドキュメントから復元できない**暗黙知**（非自明な Why・落とし穴・事故・型やコメントで表現しきれない制約）を中心に置きます。アーキテクチャ・仕様・要件といった**静的な設計情報**は `design-docs` スキルの管轄です。対象プロジェクトに `requirements.md` / `specification.md` / `architecture.md` / `design.md` があれば（無ければ作成を検討すべきなら）内容はそちらに書き、`AGENTS.md` 側は `Key References` から1行のポインタで参照するだけに留めます（[design-docs](../design-docs/SKILL.md) 参照）。
+
+揺れる情報の逃し先はグローバルドクトリンのルーティング表に従い、着手中のものは `PLAN.md`、仕様変更や未解決課題は GitHub Issue へ回します。
 
 `PLAN.md` と Issue はこのスキルの成果物ではありません。`PLAN.md` は既存ならそこへ追記し、無ければユーザーに作成を提案します。存在する場合は `AGENTS.md` の `Key References` に1行のポインタだけ置きます。
 
 Issue を立てられない状況（repo 未作成・オフライン）では一時的に `PLAN.md` へ間借りさせ、立てられるようになったら移します。
+
+**暗黙知の保存先を Claude の自動メモリ機能に委ねない。** 理由は2つ。(1) 自動メモリは Claude 専用で、Codex・Gemini CLI など他のハーネスに切り替えると情報が失われる。`AGENTS.md` はハーネスを問わず読まれる前提のファイル。(2) 自動保存はユーザーの意図しない情報が蓄積されやすく、想定外の挙動に傾く傾向がある。暗黙知は本スキルの手順に従い、人間のレビューを経て `AGENTS.md` に書く。
 
 ルールの優先順位: グローバルドクトリン ＞ 以下の判断基準。グローバルドクトリンは実行中のツールのグローバル指示ファイル（`~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md` / `~/.gemini/GEMINI.md` / `~/.copilot/copilot-instructions.md` などにシンボリックリンクされた同一実体）を指します。
 
@@ -25,10 +29,11 @@ Issue を立てられない状況（repo 未作成・オフライン）では一
 ### 書かない
 
 - README・コード・設定ファイル・`git log` を見れば分かること（採用ライブラリ名、ディレクトリの中身、過去の修正履歴）
+- アーキテクチャ・仕様・要件など静的な設計情報（`design-docs` スキルの管轄。書くのはそちらのファイルで、`AGENTS.md` は参照のみ）
 - 一般論（「テストを書きましょう」「型を付けましょう」）
 - グローバルドクトリンや他のスキルに既にある指示の再掲
 - テスト結果など、実行すれば分かる状態
-- プロダクトの紹介文。仕様サイトは `Project overview` を推奨セクションに挙げていますが、README と重複する範囲は書きません
+- プロダクトの紹介文。README と重複する範囲は書きません
 
 ### 書く
 
@@ -42,17 +47,21 @@ Issue を立てられない状況（repo 未作成・オフライン）では一
 
 ## 手順
 
-暗黙知はコードベースではなくユーザーの頭の中にしかありません。手順2〜4がそれを取りに行く工程です。コードを読んで埋められる部分だけで完走しないこと。
+暗黙知はコードベースではなく会話履歴の中にあります。**ユーザーに直接質問しない。**聞いても、何が暗黙知にあたるかを本人が自覚していないことが多く、うまく答えが返ってこないため、代わりに手順3でこのセッションの会話履歴を遡って拾います。コードを読んで埋められる部分だけで完走しないこと。
 
 1. 既存の `AGENTS.md` を読む。無ければ最小構成で新規作成する（`Commands` と落とし穴だけ。最初から埋め尽くさない）。`CLAUDE.md` が無ければ `@AGENTS.md` の1行のみで作る
-2. **blind spot pass を1回かける。**「このプロジェクトについて、私が言い忘れている前提はありますか」をユーザーに投げる
-3. **`AskUserQuestion` で1問ずつ聞く。**`AGENTS.md` の記述が変わる質問を優先する。答えが得られなければ推測で埋めず、仕様レベルの未決は Issue、着手中のものは `PLAN.md` に回す
-4. **作業中にユーザーへ判断を求めたら、その回答の理由を `Tacit Knowledge` に記録する。**「どう直すか」の選択理由と、却下した案の却下理由はコードから復元できない
+2. `design-docs` スキルの4ファイルの有無を確認する。あれば静的な設計情報はそちらに任せ、`AGENTS.md` 側は `Key References` から1行参照するだけに留める
+3. **会話履歴を遡り、次のシグナルを拾う。**
+   - ユーザーの訂正・却下（採用しなかった案とその却下理由）
+   - 複数案から選んだ理由・トレードオフの判断
+   - 調査やデバッグで判明した非自明な事実（落とし穴・事故の元になりうるもの）
+   - ユーザーが明示した制約・非交渉事項
+4. **拾えた内容だけを反映する。**会話に出てこない情報は推測で埋めない。埋まらない箇所は無理に埋めず空欄のままにする。仕様レベルの未決は Issue、着手中のものは `PLAN.md` に回す
 5. 差分更新のみ（全文書き換えしない）。Why 系は事実が変わらない限り残す
 6. 育てるのは失敗したときだけ。実際に事故った内容を `Incidents` に足し、そこから制約を導く
 7. 更新後、剪定パスを1回かける
 
 ## 参考資料
 
-- セクション構成に迷ったら [テンプレート](references/template.md)、仕様の確認は [AGENTS.md 仕様](references/agentsmd-spec.md)
-- 実例: [neko3cs/umalog の AGENTS.md](https://github.com/neko3cs/umalog/blob/main/AGENTS.md)
+- セクション構成に迷ったら [テンプレート](references/template.md)
+- 静的な設計情報の書き先は [design-docs](../design-docs/SKILL.md)
