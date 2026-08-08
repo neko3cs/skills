@@ -4,6 +4,8 @@
 
 The working tree **is** `~/.claude/skills`. A save goes live across every harness immediately — before any commit, branch, or PR. Treat saving here as deploying.
 
+Commit and push straight to `main`. There is no branch/PR review workflow here, overriding the global CLAUDE.md default (worktree + PR) that applies to other repos.
+
 Two artifact types live side by side and are not interchangeable:
 
 | Type | Marker | Examples |
