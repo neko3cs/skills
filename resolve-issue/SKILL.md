@@ -1,6 +1,6 @@
 ---
 name: resolve-issue
-description: Resolves a GitHub issue by reading it, creating a branch, implementing a fix, adding tests, and opening a pull request. Invoke with an issue number (e.g. /resolve-issue 4).
+description: Resolves a GitHub issue end-to-end — reads it, creates a branch, implements a fix, adds tests, and opens a pull request. Use when asked to resolve, fix, or close a specific GitHub issue by number (e.g. "/resolve-issue 4", "issue #4を解決して").
 license: MIT
 compatibility: Requires git, gh CLI, and a test-capable project environment
 ---

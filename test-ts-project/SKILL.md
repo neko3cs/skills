@@ -1,6 +1,6 @@
 ---
 name: test-ts-project
-description: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds.
+description: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds. Use when an implementation in a TypeScript project is finished and needs to pass the quality gate before commit or PR.
 license: MIT
 ---
 

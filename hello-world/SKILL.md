@@ -1,6 +1,6 @@
 ---
 name: hello-world
-description: A basic "Hello, World" skill to demonstrate how skills are structured and executed.
+description: A basic "Hello, World" skill for verifying the global skill system is working, replying to greetings with a scripted response. Use when the user greets Claude ("Hello", "こんにちは"), says "say hello", or asks what this skill is.
 license: MIT
 ---
 
