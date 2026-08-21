@@ -1,6 +1,6 @@
 ---
 name: test-ios-project
-description: Ensures iOS/Swift projects run format, lint, XCTest unit/UI, branch coverage, and mutation tests sequentially until each step succeeds.
+description: Ensures iOS/Swift projects run format, lint, XCTest unit/UI, branch coverage, and mutation tests sequentially until each step succeeds. Use when an implementation in an iOS/Swift project is finished and needs to pass the quality gate before commit or PR.
 license: MIT
 ---
 

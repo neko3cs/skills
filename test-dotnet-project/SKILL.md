@@ -1,6 +1,6 @@
 ---
 name: test-dotnet-project
-description: Ensures .NET projects run format, xUnit unit/e2e, and mutation tests sequentially until each step succeeds.
+description: Ensures .NET projects run format, xUnit unit/e2e, and mutation tests sequentially until each step succeeds. Use when an implementation in a .NET project is finished and needs to pass the quality gate before commit or PR.
 license: MIT
 ---
 
