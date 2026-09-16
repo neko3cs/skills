@@ -1,6 +1,6 @@
 ---
 name: update-planmd
-description: Write or resume PLAN.md — the in-flight work baton that survives across sessions, tools, and machines. Records the chosen approach, the options already rejected, and the next step. Use when asked to update PLAN.md, to pause/hand off work, or to resume where work left off.
+description: Write or resume PLAN.md — the in-flight work spec that survives across sessions, tools, and machines. Records goals, deliverables, and machine-checkable success/failure conditions so work (including a Ralph Loop) can resume or stop correctly. Use when asked to update PLAN.md, to pause/hand off work, or to resume where work left off.
 license: MIT
 ---
 
@@ -8,46 +8,55 @@ license: MIT
 
 ## 目的
 
-いま着手している作業を、セッションが切れても別ツール・別マシン・別の人が引き継げる形で `PLAN.md` に残します。
+いま着手している作業を、セッションが切れても別ツール・別マシン・別の人（および Ralph Loop のような自律ループ）が引き継げる形で `PLAN.md` に残します。
 
-書く対象は「**他ツール・他人・別マシンが読んで初めて意味がある情報**」だけです。Claude の auto-memory はセッションを越えて働きますが、Codex や Antigravity や Copilot はそれを読めません。`PLAN.md` はそのギャップを埋めるためだけに存在します。逆に、自分のセッション内で覚えていれば済むものは書きません。
+`PLAN.md` は「何を・誰のために・どこまでやれば終わりか」を一箇所にまとめた作業指示書です。特に `Success Conditions` と `Failure Conditions` は Ralph Loop がループを継続するか止めるかの判定材料になるため、読めば機械的に判定できる形で書きます。
 
-情報の置き場所は `AGENTS.md` 側と共通です（[update-agentsmd](../update-agentsmd/SKILL.md) 参照）。`PLAN.md` は「いま着手中で覚えておきたいこと」だけを担当します。
+`PLAN.md` は**フロー情報**（今この作業に必要な情報だけ）、[design-docs](../design-docs/SKILL.md) の4ファイルは**ストック情報**（プロジェクト全体の恒久的な情報）です。役割が違うため、内容の重複を避けません。`PLAN.md` を読むだけで作業に着手できることを優先し、`Personas` / `Issues` / `Deliverables` が `requirements.md` / `specification.md` と重複していても、そのまま `PLAN.md` に書きます。
 
-`PLAN.md` は `AGENTS.md` と同じ英語で記述します。ここに書いた Why はそのまま `AGENTS.md` へ昇格するため、言語を揃えて転記コストをゼロにします。
+`PLAN.md` は `AGENTS.md` と同じ英語で記述します。
 
 ## 書く内容
 
 | セクション | 中身 |
 | :--- | :--- |
-| `Goal` | いま何を目指しているか。1行 |
-| `Approach` | 選んだ方針と、その理由 |
-| `Rejected` | 検討して却下した選択肢と、却下理由 |
-| `Next` | 次の一手 |
-| `Undecided` | 未確定事項。Issue を立てられるようになったら移す |
+| `Goals` | 何を達成するか |
+| `Personas` | どんな人が利用するか。作業内容によっては省略 |
+| `Issues` | 想定利用者が抱える課題。想定利用者がいない場合は、目的の背景となる課題 |
+| `Deliverables` | 最終的に何を作るのか詳細に |
+| `Usecases` | 作成物がどんな用途で利用されるか |
+| `Success Conditions` | 何ができていたら作業終了か。数値または検証可能な状態で書く |
+| `Failure Conditions` | 作業を続行しなければならない失格条件。満たさない場合は成果物を見直し、修正する |
+| `Next Actions` | 次にやらなければいけない作業を具体的に書く |
 
-`Rejected` が最も価値の高いセクションです。記録が無いと、再開したエージェントはユーザーが既に潰した袋小路へ再突入します。ここに溜まった却下理由は `AGENTS.md` の `Tacit Knowledge` 昇格候補でもあります。
+`Success Conditions` と `Failure Conditions` が最も重要です。AI は要素を足し算しがちなので、`Failure Conditions`（やってはいけないことの列挙）の方が `Success Conditions` より効く場面が多いです。ここが薄いと、再開したエージェント（や Ralph Loop）が「好みの問題」を「定義から外れている」に変換できず、いつまでも収束しません。
 
 ## 書かない
 
-- plan mode で出力した計画の全文。残すのは決定と却下した選択肢だけ
+- plan mode で出力した計画の全文。残すのは決定事項と判定条件だけ
 - セッション内の作業リスト（`TodoWrite` と auto-memory の領域）
 - コード・設定・`git log` を見れば分かること
+- 色・フォントなど見た目の指示（該当ドキュメントがあればそちらへ）
+- 過去に却下した選択肢の経緯・ログ。条件が変われば採用しうる選択を固定化しない。やってはいけないことは `Failure Conditions` など、その時点のインプット情報として書く
+- 未確定事項の管理。仕様レベルの未決は `PLAN.md` に置かず、GitHub Issue へ回す
 - 仕様変更・他人と共有すべき未解決課題（GitHub Issue に立てる）
 
 ## 手順: 書く
 
 1. 方針を決めた時点、および作業を中断する時点で更新する
-2. 差分更新のみ。特に `Rejected` は消さない
-3. `Undecided` が仕様レベルなら Issue を立てるようユーザーに促す
-4. `AGENTS.md` に `Key References` があり `PLAN.md` へのポインタが無ければ1行足す
+2. 差分更新のみ
+3. `Success Conditions` / `Failure Conditions` は書いた本人以外が判定できるか読み直す。曖昧なら数値か具体的な状態に言い換える
+4. 仕様レベルの未決事項が出たら GitHub Issue を立てる。Issue が使えない状況（repo 未作成・オフライン等）では `PLAN.md` に書かず、ユーザーに記録を託す
+5. `AGENTS.md` に `Key References` があり `PLAN.md` へのポインタが無ければ1行足す
 
 ## 手順: 再開する
 
 1. `PLAN.md` を読む
-2. **`Rejected` を先に読む。**却下済みの方針を再提案しない
-3. `Next` から着手する
-4. 着手後に判明した事実で `Approach` と `Next` を更新する
+2. `Failure Conditions` を読み、失格条件を把握する
+3. `Success Conditions` を読み、終了判定基準を把握する
+4. `Next Actions` から着手する
+5. 着手後に判明した事実で各セクションを更新する
+6. `Success Conditions` を満たしたら作業終了。`Failure Conditions` に触れたら成果物を見直し、修正してから再判定する
 
 ## 寿命
 

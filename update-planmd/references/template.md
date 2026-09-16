@@ -7,20 +7,30 @@
 ```markdown
 # PLAN.md
 
-## Goal
-- <what we are trying to achieve — one line>
+## Goals
+- <what we are trying to achieve>
 
-## Approach
-- <chosen direction>: <why>
+## Personas
+<!-- 作業内容によっては省略 -->
+- <who uses this>
 
-## Rejected
-- <option>: <why it was rejected>
+## Issues
+- <problem the persona faces — or the background problem if there is no persona>
 
-## Next
-- <the immediate next step>
+## Deliverables
+- <what will be produced, in detail>
 
-## Undecided
-- <open question — file a GitHub Issue once it can be filed>
+## Usecases
+- <how / where / by whom the deliverable is used>
+
+## Success Conditions
+- <verifiable condition for "done" — a number or a concrete state>
+
+## Failure Conditions
+- <disqualifying condition for this work. If met, revise the deliverable and re-check>
+
+## Next Actions
+- <the immediate, concrete next step>
 ```
 
 ## 畳んだ状態
