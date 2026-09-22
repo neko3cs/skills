@@ -29,13 +29,13 @@ license: MIT
 
 1. 配置先を確認する。既存の `docs/` があればその配下、無ければリポジトリ直下。判断がつかなければユーザーに聞く。
 2. `assets/templates/` の4ファイルを配置先へコピーする。
-3. リポジトリの内容（README、コード、`AGENTS.md` / `CLAUDE.md`、Issue、ユーザーの説明）から**確認できた事実だけ**を各節に書く。
+3. リポジトリの内容（README、コード、`AGENTS.md`、Issue、ユーザーの説明）から**確認できた事実だけ**を各節に書く。
 4. 確認できない箇所は `TBD` と1行だけ残す。**推測で埋めない。** 埋められなかった項目はユーザーに提示して聞く。
 5. その案件に無い節（画面が無い、外部連携が無い等）は節ごと削除する。空の見出しを残さない。
 6. Mermaid の空ブロックは、実際に図を描く箇所だけ埋める。埋めない空ブロックは削除する。
 7. 完了後、次の一文を出力する。
 
-   > `architecture.md` は常時読ませたい情報です。`CLAUDE.md` / `AGENTS.md` に `docs/architecture.md` への参照を1行追加することを推奨します。追加しますか？
+   > `architecture.md` は常時読ませたい情報です。`AGENTS.md` に `docs/architecture.md` への参照を1行追加することを推奨します。追加しますか？
 
    ユーザーが了承したら、`AGENTS.md` の `Key References` に1行足す（[update-agentsmd](../update-agentsmd/SKILL.md) 参照）。
 
