@@ -1,6 +1,6 @@
 ---
 name: refactor-code
-description: Refactors verbose, AI-generated TypeScript / Go / C# code and its tests into what an experienced engineer would approve in review, without changing external behavior — removing restating comments, needless defensive checks, single-use abstractions, and near-duplicate tests, while improving (not deleting) doc comments. Use when asked to refactor, clean up, simplify, or de-bloat existing code or tests ("リファクタリングして", "冗長なので整理して", "AIが書いたコードを読みやすくして", "テストが多すぎるので整理して").
+description: Refactors verbose, AI-generated TypeScript / Go / C# / Swift code and its tests into what an experienced engineer would approve in review, without changing external behavior — removing restating comments, needless defensive checks, single-use abstractions, and near-duplicate tests, while improving (not deleting) doc comments. Use when asked to refactor, clean up, simplify, or de-bloat existing code or tests ("リファクタリングして", "冗長なので整理して", "AIが書いたコードを読みやすくして", "テストが多すぎるので整理して").
 license: MIT
 ---
 
@@ -16,7 +16,7 @@ AIのコードは、名前を言い換えただけのコメント、起こりえ
 
 - 外部から見た振る舞い（入出力・エラー/例外・副作用）は**変えない**。
 - 公開APIのシグネチャは変えない。変えたい場合は提案だけにとどめる。
-- プロジェクトの既存規約（ESLint / golangci-lint / `dotnet format` / `.editorconfig` など）を自分の好みより優先する。
+- プロジェクトの既存規約（ESLint / golangci-lint / `dotnet format` / SwiftLint / SwiftFormat / `.editorconfig` など）を自分の好みより優先する。
 - 本体コードとテストは**別パス**で扱う。同時に変更すると、何が壊れたのか分からなくなるため。
 - 一度に扱うのは関数・モジュール単位。大きなファイルは分割して進める。
 - 1コミットにつき1種類の変更（コメント整理、インライン化、エラー処理整理など）に分ける。
@@ -49,7 +49,7 @@ AIのコードは、名前を言い換えただけのコメント、起こりえ
 
 本体コードのコミットが済んでから、テストに取りかかります。検証している振る舞いは**一切減らさない**でください。
 
-- 入力違いで同じ振る舞いを試すだけのテストはパラメータ化する（TS: `it.each` / Go: テーブル駆動テスト / C#: `[Theory]` + `[InlineData]`）。
+- 入力違いで同じ振る舞いを試すだけのテストはパラメータ化する（TS: `it.each` / Go: テーブル駆動テスト / C#: `[Theory]` + `[InlineData]` / Swift: Swift Testing の `@Test(arguments:)`。XCTest のみのプロジェクトでは入力と期待値の配列をループする）。
 - 実装の内部手順やモックの呼び出し回数だけを検証するテストは指摘する。削除は提案のみ。
 - テスト名は `test-as-tdd` スキルの命名規則（日本語の自然文で「条件 → 期待する結果」）に揃える。
 - 最後に「旧テスト → 新テスト」の対応表を出す。
@@ -61,7 +61,7 @@ AIのコードは、名前を言い換えただけのコメント、起こりえ
 
 ## ドキュメントコメント
 
-JSDoc / Go の doc コメント / XML ドキュメントコメントは、人間が関数本体を読む前にメンタルモデルを作るための情報です。削らずに質を上げてください。
+JSDoc / Go の doc コメント / XML ドキュメントコメント / Swift の `///` ドキュメントコメント（DocC）は、人間が関数本体を読む前にメンタルモデルを作るための情報です。削らずに質を上げてください。
 
 - 公開関数・型には必ず残す。
 - 書く内容: 目的、前提条件、戻り値の意味、エラー/例外の条件、副作用、設計上の理由。
@@ -95,6 +95,7 @@ JSDoc / Go の doc コメント / XML ドキュメントコメントは、人間
 
 - TypeScriptプロジェクト: `test-ts-project`
 - .NETプロジェクト: `test-dotnet-project`
+- iOS/Swiftプロジェクト: `test-ios-project`
 - Goプロジェクト: 該当スキルなし。`go test -cover` と golangci-lint の結果を基準線にする。
 
 TDDで新しく実装する場合のRefactorフェーズは `test-as-tdd` の範囲です。このスキルは、すでに書かれたコードをまとめて整理するときに使います。
