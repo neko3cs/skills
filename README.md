@@ -26,6 +26,7 @@
 | **test-ts-project** | TypeScript プロジェクトで unit、e2e、coverage、mutation テストを順番に実行させます。 |
 | **test-dotnet-project** | .NET プロジェクトで `dotnet format`、xUnit テスト、Playwright.NET による e2e、Property-Based Test（FsCheck/CsCheck）、Stryker.NET を順に実行させます。 |
 | **test-ios-project** | iOS/Swift プロジェクトで SwiftFormat・SwiftLint・XCTest・XCUITest・SwiftCheck（PBT）・Muter を順に実行させます。 |
+| **refactor-code** | AIが書いた冗長なTypeScript / Go / C# のコードとテストを、振る舞いを変えずに人間が読みやすい形へリファクタリングします。ドキュメントコメントは削らずに質を上げます。 |
 | **resolve-issue** | 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。 |
 | **update-agentsmd** | AGENTS.md を作成・更新して別AIへの引き継ぎ状態を作ります。暗黙知・課題事項・事故集・スナップショットを追加・更新します。 |
 | **update-planmd** | 着手中の作業を PLAN.md に残し、セッション・ツール・マシンをまたいで再開できるようにします。採用した方針、却下した選択肢、次の一手を記録します。 |
