@@ -1,6 +1,6 @@
 ---
 name: test-code
-description: Run a project's post-implementation quality gate, choosing .NET, iOS/Swift, TypeScript, or Go procedures from repository evidence. Use when asked to test a project, run quality checks before commit or PR, or「テストして」「品質ゲートを通して」「実装後の検証をして」. Covers formatting, lint/type checks where applicable, unit and E2E/UI tests, coverage, property-based tests, and mutation tests.
+description: Run a project's post-implementation quality gate, choosing .NET, iOS/Swift, TypeScript, or Go procedures from repository evidence. Use when asked to test a project, run quality checks before commit or PR, or「テストして」「品質ゲートを通して」「実装後の検証をして」. Covers formatting, lint/type checks, unit and E2E/UI tests, coverage, property-based and mutation tests, plus applicability and results of CodeQL security analysis, sanitizer tests, and dependency vulnerability audits.
 license: MIT
 ---
 
@@ -24,6 +24,14 @@ license: MIT
 - 対象と選定理由を実行前に短く伝える。判定できる場合は言語の選択をユーザーに求めない。
 - 対応手順のない言語では、他言語のツールを当てはめない。プロジェクト既定の検証を行い、このスキルの手順では未対応であることを報告する。
 
+## セキュリティ検証の選択
+
+品質ゲートには CodeQL、Sanitizer 付きテスト、依存ライブラリの既知脆弱性検査も含める。[references/security.md](references/security.md) を読み、言語別手順と合わせて実施条件・実行場所・合否を決める。
+
+- Lint・型チェック・コンパイラ診断はコード規約や型などの検査、CodeQL はクエリによるセキュリティ静的解析、Sanitizer は実行時の検査、依存監査は解決済み依存と既知アドバイザリーの照合。それぞれの成功を他の検証の完了として扱わない。
+- 各検証のローカル / 既存 CI の担当、対象コミット、必要な権限・ライセンス・OS・ツールチェーンを着手前に確認する。CI で実行予定というだけでは確認済みにしない。
+- 非対応の言語・プラットフォームは理由付きで対象外、適用可能だが環境や権限が不足する場合は未確認とする。未実行を合格にせず、再開条件を記録する。
+
 ## 共通の進め方
 
 - 各参照の順序に沿って個別に実行し、前段の失敗を解消してから次へ進む。コマンド例より、プロジェクトの既存スクリプト、パッケージマネージャー、設定、テスト対象を優先する。
@@ -36,6 +44,8 @@ license: MIT
 
 ## 結果の報告
 
-対象プロジェクト、実行コマンド、各ステップの成否、カバレッジ・ミューテーションの実測値とレポートの場所を簡潔に示す。「確認済み」「失敗・基準未達」「対象外（理由付き）」「未確認（実行できなかった理由付き）」を区別する。
+対象プロジェクト、対象コミット（未コミット差分の有無）、実行環境・ツールとバージョン、実行コマンド、各ステップの成否、カバレッジ・ミューテーションの実測値とレポートの場所を簡潔に示す。「確認済み」「失敗・基準未達」「対象外（理由付き）」「未確認（実行できなかった理由付き）」を区別する。
+
+セキュリティ検証は種類ごとに、処理の成否と検出の有無、検査範囲・除外・限界、検出 ID・重大度・対応、ログ / SARIF / xcresult / CI 実行 URL を分けて報告する。判定例は [references/security.md](references/security.md)、この手順自体の検証証跡は [references/security-validation.md](references/security-validation.md) を参照する。
 
 このスキルが担当するのは実装後の検証。TDD の実装サイクルには `test-as-tdd` を使う。コミット・push・PR 作成は、このスキルの呼び出しだけでは許可されたとみなさない。
