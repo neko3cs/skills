@@ -32,9 +32,17 @@
 
 ## セキュリティ検証
 
-[共通手順](security.md) に従い、通常ゲートに以下を追加する。
+通常ゲートに以下を追加する。判定・報告は `SKILL.md` の共通方針に従う。
 
-- **CodeQL**: JavaScript extractor による TypeScript 解析を使う。対応する TS / Node バージョン、対象ソースと生成物の除外、既存 CI の suite を確認する。ローカルの DB 作成・解析例は共通手順を参照する。ESLint / `tsc` の成功で代替せず、抽出ログ・SARIF・検出を確認する。
+- **CodeQL**: JavaScript extractor による TypeScript 解析を使う。対応する TS / Node バージョン、対象ソースと生成物の除外を確認する。ローカルの DB 作成・解析例は次のとおり。
+
+  ```sh
+  mkdir -p reports
+  codeql database create reports/codeql-typescript-db --language=javascript-typescript --source-root=.
+  codeql database analyze reports/codeql-typescript-db \
+    codeql/javascript-queries:codeql-suites/javascript-security-extended.qls \
+    --format=sarif-latest --output=reports/codeql-typescript.sarif
+  ```
 - **Sanitizer**: 通常の JavaScript / TypeScript は Xcode ASan / TSan の対象外。自前ビルドする native addon や Wasm 等がある場合は、それぞれのツールチェーンの計装と対応ランタイムを確認する。対象にできるが環境がない場合は未確認とする。
 - **依存監査**: `packageManager`、ワークスペース、使用中の lockfile とレジストリを確認し、既存のパッケージマネージャーの監査を使う。例のうち該当するものだけを実行する。
 
@@ -45,7 +53,7 @@
   yarn npm audit --all --recursive --json > reports/yarn-audit.json
   ```
 
-  各コマンドの終了コードを直後に記録し、レポート内の検出と通信・認証エラーを区別する。開発時依存と推移的依存も含め、production のみの監査を全体監査と呼ばない。使用レジストリの監査 API 対応・DB の制限、Git / local / private 依存の照合可否を確認する。`outdated` と脆弱性監査は別。`audit fix --force` 等で無条件に更新せず、影響を確認して修正・通常テスト・再監査する。
+  JSON 内の advisory・重大度・影響パッケージと通信・認証エラーを確認する。production のみの監査を全体監査と呼ばない。使用レジストリの監査 API 対応、Git / local / private 依存の照合可否を確認する。`audit fix --force` 等で無条件に更新せず、更新の影響を確認する。
 
 - [npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/)
 - [pnpm audit](https://pnpm.io/cli/audit)
