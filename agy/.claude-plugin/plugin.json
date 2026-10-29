@@ -1,8 +1,0 @@
-{
-  "name": "agy",
-  "version": "0.1.0",
-  "description": "Use the Antigravity CLI (agy) from Claude Code to delegate tasks.",
-  "author": {
-    "name": "neko3cs"
-  }
-}
