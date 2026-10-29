@@ -1,14 +1,4 @@
----
-name: test-dotnet-project
-description: Ensures .NET projects run format, xUnit unit/e2e, and mutation tests sequentially until each step succeeds. Use when an implementation in a .NET project is finished and needs to pass the quality gate before commit or PR.
-license: MIT
----
-
-# test-dotnet-project Skill
-
-## 概要
-
-このスキルを実行したら、実装後に必ずテストの全ステップ（format / unit / e2e / mutation）を1から順に走らせ、各ステップが成功するまで継続することを求めます。失敗があれば1のステップへ戻り、修正と再実行を繰り返して合格させてください。
+# .NET のテスト手順
 
 ## 実行順序と合格ライン
 
@@ -29,8 +19,8 @@ license: MIT
      - Playwright.NETを利用したxUnitのe2eテストを実行し、画面遷移、認証、フォーム送信、主要フローなどのシナリオが安定して成功するまで調整してください。
      - 既存のe2eプロジェクトがあればそれを優先し、無ければPlaywright.NETベースのテストプロジェクトを追加してブラウザのインストールまで含めて整備します。
    - **WPF / Console プロジェクトの場合**
-     - 有効で再現性の高いe2e手法をこのスキルでは前提にしないため、e2eステップは明示的にスキップしてください。
-     - スキップした理由を記録し、そのまま次のMutation Testに進んでください。
+     - 有効で再現性の高いe2e手法をこの手順では前提にしないため、e2eステップは明示的にスキップしてください。
+     - スキップした理由を記録し、そのまま次の Property-Based Test に進んでください。
 4. **Property-Based Test（FsCheck / CsCheck）**
    - プロパティベーステストを実施します。xUnit と統合しやすい `FsCheck.Xunit` または `CsCheck` を推奨します。未導入であれば `dotnet add package FsCheck.Xunit` 等で追加してください。
    - PBT はブランチカバレッジの穴埋めではなく、**人がレビューすべき重要なテストケース**を表現するために行います。ランダムな入力で仕様の不変条件・境界条件・対称性などを検証するプロパティを定義してください。
@@ -43,7 +33,7 @@ license: MIT
 
 ## 設定と補足
 
-- `dotnet format` → UnitTest → e2e → PBT → Mutationの順に個別で実行し、前のステップに失敗がないことを確認してから次へ進んでください。各ステップは成功するまで再実行し、失敗時は必要に応じて1のステップへ戻って再検証してください。
+- `dotnet format` → UnitTest → e2e → PBT → Mutationの順に個別で実行し、前のステップに失敗がないことを確認してから次へ進んでください。失敗を修正したら、変更の影響を受けるステップを再実行してください。
 - xUnitのテストプロジェクトが未整備であれば `dotnet new xunit` で追加し、対象プロジェクトへの参照を設定してください。
 - ASP.NET CoreでPlaywright.NETが未導入であれば、`Microsoft.Playwright.Xunit` など適切なパッケージを追加し、ビルド後にPlaywrightのブラウザ導入を完了させてから `dotnet test` を実行してください。
 - Playwright.NETのe2eでは `WebApplicationFactory` やテスト用URL、認証状態、テストデータ初期化などを明示的に管理し、外部依存に引きずられない再現可能なテストにしてください。
