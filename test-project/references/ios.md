@@ -1,14 +1,4 @@
----
-name: test-ios-project
-description: Ensures iOS/Swift projects run format, lint, XCTest unit/UI, branch coverage, and mutation tests sequentially until each step succeeds. Use when an implementation in an iOS/Swift project is finished and needs to pass the quality gate before commit or PR.
-license: MIT
----
-
-# test-ios-project Skill
-
-## 概要
-
-このスキルを実行したら、実装後に必ずテストの全ステップ（format / lint / unit / ui / coverage / mutation）を1から順に走らせ、各ステップが成功するまで継続することを求めます。失敗があれば1のステップへ戻り、修正と再実行を繰り返して合格させてください。
+# iOS / Swift のテスト手順
 
 ## 実行順序と合格ライン
 
@@ -96,7 +86,7 @@ license: MIT
 ## 設定と補足
 
 - format → lint → unit（coverage 集計含む）→ UI → PBT → mutation の順に個別で実行し、前のステップに失敗がないことを確認してから次へ進んでください。
-- 各ステップは成功するまで再実行し、失敗時は必要に応じて1のステップへ戻って再検証してください。
+- 失敗を修正したら、変更の影響を受けるステップを再実行してください。
 - XCTest のテストターゲットが未整備であれば Xcode の「File > New > Target > Unit Testing Bundle」で追加し、テスト対象モジュールへの依存関係を設定してください。
 - シミュレーターが起動していない場合は `open -a Simulator` で起動するか、`xcrun simctl list devices available` で利用可能なデバイスを確認してください。
 - Muter はデフォルトでソースファイルを自動検出しますが、生成コードや不要ファイルを除外したい場合は `muter.conf.yml` の `exclude` フィールドで指定してください。

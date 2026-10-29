@@ -1,14 +1,4 @@
----
-name: test-ts-project
-description: Ensures TypeScript projects run unit, e2e, coverage, and mutation tests sequentially until each step succeeds. Use when an implementation in a TypeScript project is finished and needs to pass the quality gate before commit or PR.
-license: MIT
----
-
-# test-ts-project Skill
-
-## 概要
-
-このスキルを実行したら、実装後に必ずテストの全ステップ（unit / e2e / coverage / mutation）を1から順に走らせ、各ステップが成功するまで継続することを求めます。失敗があれば1のステップへ戻り、修正と再実行を繰り返して合格させてください。
+# TypeScript のテスト手順
 
 ## 実行順序と合格ライン
 

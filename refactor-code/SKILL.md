@@ -91,12 +91,9 @@ JSDoc / Go の doc コメント / XML ドキュメントコメント / Swift の
 
 ## 他のスキルとの関係
 
-`refactor-code` は**既存コードの整理**を担当するスキルです。品質ゲート（フォーマット・カバレッジ・ミューテーションテストなど）の合格ラインは別スキルが担当します。ステップ4・5の確認には、プロジェクト種別に応じて以下のスキルの基準を使ってください。
+`refactor-code` は**既存コードの整理**を担当するスキルです。品質ゲート（フォーマット・カバレッジ・ミューテーションテストなど）の合格ラインは別スキルが担当します。ステップ4・5の確認には、`test-project` が選ぶ手順の基準を使ってください。
 
-- TypeScriptプロジェクト: `test-ts-project`
-- .NETプロジェクト: `test-dotnet-project`
-- iOS/Swiftプロジェクト: `test-ios-project`
-- Goプロジェクト: 該当スキルなし。`go test -cover` と golangci-lint の結果を基準線にする。
+Goプロジェクトは `test-project` の言語別手順が未対応のため、`go test -cover` と golangci-lint の結果を基準線にする。
 
 TDDで新しく実装する場合のRefactorフェーズは `test-as-tdd` の範囲です。このスキルは、すでに書かれたコードをまとめて整理するときに使います。
 

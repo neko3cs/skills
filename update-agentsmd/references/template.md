@@ -23,7 +23,7 @@
 - <ドメイン特有の用語・モデル関係>
 
 ## Commands
-<!-- 対応するテストスキル(test-ts-project 等)があれば、それを使う旨を書く -->
+<!-- テストスキル test-project があれば、それを使う旨を書く -->
 \`\`\`bash
 # Format
 # Tests
