@@ -33,9 +33,9 @@
 
 ## セキュリティ検証
 
-[共通手順](security.md) に従い、通常ゲートに以下を追加する。
+通常ゲートに以下を追加する。判定・報告は `SKILL.md` の共通方針に従う。
 
-- **CodeQL**: C# と対応 SDK を確認する。`.fsproj` / F# は CodeQL の C# 解析の対象外とし、混在ソリューションでも区別する。既存 CI を優先し、ローカルでビルドを抽出する例は次のとおり。新しい DB を使い、`App.slnx` を実際の対象に置き換える。
+- **CodeQL**: C# と対応 SDK を確認する。`.fsproj` / F# は CodeQL の C# 解析の対象外とし、混在ソリューションでも区別する。ローカルでビルドを抽出する例は次のとおり。新しい DB を使い、`App.slnx` を実際の対象に置き換える。
 
   ```sh
   codeql database create reports/codeql-csharp-db --language=csharp --source-root=. \
@@ -45,7 +45,6 @@
     --format=sarif-latest --output=reports/codeql-csharp.sarif
   ```
 
-  Analyzer / `dotnet format` の成功と CodeQL の検出結果は分け、抽出ログ・SARIF・重大度を確認する。
 - **Sanitizer**: 純粋な managed コードは Xcode ASan / TSan の対象外。P/Invoke や C++ の自前ビルドを含む場合は、ネイティブ側の対応 OS・コンパイラ・計装テストを確認して別途実行する。実行できない適用対象は未確認とする。
 - **依存監査**: SDK / NuGet、`NuGet.Config` の監査データソース、ロック / restore 結果を確認する。SDK に対応する構文で実行する。
 
@@ -55,7 +54,7 @@
   dotnet package list --project App.slnx --vulnerable --include-transitive --format json > reports/nuget-audit.json
   ```
 
-  直接・推移的依存と全対象フレームワークを確認し、NuGet の監査データ取得エラーも読む。終了コード 0 だけで未検出とせず、JSON の advisory・重大度・影響パッケージを確認する。private feed や未収録パッケージは制限として報告する。検出時の修正・再監査と最終判定は共通手順に従う。
+  全対象フレームワークを確認し、NuGet の監査データ取得エラーも読む。終了コード 0 でも検出がないとは限らないため、JSON の advisory・重大度・影響パッケージを確認する。private feed や未収録パッケージは制限として報告する。
 
 - [dotnet package list の構文・脆弱性一覧](https://learn.microsoft.com/ja-jp/dotnet/core/tools/dotnet-package-list)
 - [NuGet の監査とデータソース](https://learn.microsoft.com/nuget/concepts/auditing-packages)

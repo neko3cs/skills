@@ -89,9 +89,9 @@ gremlins unleash --threshold-efficacy 90 --threshold-mcover 90 --output=mutation
 
 ## セキュリティ検証
 
-[共通手順](security.md) に従い、通常ゲートに以下を追加する。標準ツール優先の方針を維持しつつ、標準にはない CodeQL・既知脆弱性検査は目的を分ける。
+通常ゲートに以下を追加する。判定・報告は `SKILL.md` の共通方針に従う。標準ツール優先の方針を維持しつつ、標準にはない CodeQL・既知脆弱性検査は目的を分ける。
 
-- **CodeQL**: 対応 Go バージョン、対象モジュール・build tags を確認し、既存 CI を優先する。ローカルで明示ビルドする例は次のとおり。複数モジュールは対象ごとに新しい DB を作る。
+- **CodeQL**: 対応 Go バージョン、対象モジュール・build tags を確認する。ローカルで明示ビルドする例は次のとおり。複数モジュールは対象ごとに新しい DB を作る。
 
   ```sh
   codeql database create reports/codeql-go-db --language=go --source-root=. \
@@ -101,8 +101,7 @@ gremlins unleash --threshold-efficacy 90 --threshold-mcover 90 --output=mutation
     --format=sarif-latest --output=reports/codeql-go.sarif
   ```
 
-  `go vet` の成功で代替せず、抽出ログと SARIF の検出を確認する。
-- **実行時検査**: 手順3の `go test -race -count=1 ./...` を使い、通常テストとは別に終了コード・診断・実行範囲を記録する。実行経路のみが対象で、レース診断が残れば失敗。ASan / MSan は対応 OS / cgo / コンパイラ等を必要とするため、既存のネイティブ検査が対象として採用している場合に使い、純粋な Go に Swift の ASan / TSan を当てはめない。
+- **実行時検査**: 手順3の `go test -race -count=1 ./...` を使う。ASan / MSan は対応 OS / cgo / コンパイラ等を必要とするため、既存のネイティブ検査が対象として採用している場合に使い、純粋な Go に Swift の ASan / TSan を当てはめない。
 - **依存監査**: Go 公式の `govulncheck` の採用バージョンを固定し、各モジュールで実行する。`go.mod` / `go.sum` / `go.work`、`replace`、vendor、Go 標準ライブラリの版、CI と同じ build tags / GOOS / GOARCH を確認する。
 
   ```sh
@@ -110,7 +109,7 @@ gremlins unleash --threshold-efficacy 90 --threshold-mcover 90 --output=mutation
   govulncheck -test ./... > reports/govulncheck.txt 2>&1
   ```
 
-  Go Vulnerability Database との照合結果、推移的依存、脆弱な関数への到達経路とモジュール単位の検出を区別する。ソース解析は選択したビルド構成が対象で、reflect / unsafe 等による限界も記録する。標準テキスト出力の終了コードと診断を確認する。JSON / SARIF モードは検出があっても終了コード 0 になるため、使う場合は finding を読んで判定する。DB 接続失敗は未確認とし、検出時は Go / 依存の修正後に通常テストと再監査を実施する。
+  Go Vulnerability Database との照合結果について、脆弱な関数への到達経路とモジュール単位の検出を区別する。ソース解析は選択したビルド構成が対象で、reflect / unsafe 等による限界も記録する。標準テキスト出力の終了コードと診断を確認する。JSON / SARIF モードは検出があっても終了コード 0 になるため、使う場合は finding を読んで判定する。
 
 - [govulncheck の使い方・終了コード・制限](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
 

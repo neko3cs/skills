@@ -85,12 +85,12 @@
 
 ## セキュリティ検証
 
-[共通手順](security.md) の実施条件・判定・報告に従い、以下を通常ゲートに追加する。SwiftLint や `xcodebuild analyze` の成功で代替しない。ここに示すのは macOS のシェル向けの例で、採用ツールのバージョンを固定し、プレースホルダーを対象プロジェクトに置き換える。
+通常ゲートに以下を追加する。判定・報告は `SKILL.md` の共通方針に従う。ここに示すのは macOS のシェル向けの例。
 
 ### CodeQL による Swift のセキュリティ静的解析
 
-1. macOS、Xcode / Swift、CodeQL CLI bundle、Swift queries を用意する。`xcode-select -p`、`xcodebuild -version`、`swift --version`、`codeql version` を記録し、採用 CLI の対応表・リリースノートでコンパイラとの互換性を確認する。最新版の対応範囲を古い CLI に適用しない。Windows / Linux で Swift をビルドできても CodeQL の Swift 抽出は macOS が必要。
-2. 共通手順の利用権・ライセンス、実行担当、ビルド対象を確認する。Swift の `none` ビルドモードは使わず、ビルドを伴う `manual` または既存 CI の `autobuild` を使う。autobuild は最大のターゲットを選び得るため、必要なアプリ・ライブラリが対象になったか確認する。Objective-C / C++ 等の混在コードは Swift 解析だけで網羅したと扱わない。
+1. macOS、Xcode / Swift、CodeQL CLI bundle、Swift queries を用意する。`xcode-select -p`、`xcodebuild -version`、`swift --version` を記録する。Windows / Linux で Swift をビルドできても CodeQL の Swift 抽出は macOS が必要。
+2. ビルド対象を確認する。Swift の `none` ビルドモードは使わず、ビルドを伴う `manual` または既存 CI の `autobuild` を使う。autobuild は最大のターゲットを選び得るため、必要なアプリ・ライブラリが対象になったか確認する。Objective-C / C++ 等の混在コードは Swift 解析だけで網羅したと扱わない。
 3. ロックに基づき依存を取得する。CocoaPods / Carthage を使う場合も、DB 作成前にプロジェクト既定の方法で依存を用意する。新しい DB とビルド用ディレクトリを使い、キャッシュでコンパイルが省略されないようにする。
 
 ```sh
@@ -110,7 +110,7 @@ codeql database create reports/codeql-swift-db --language=swift --source-root=. 
   --command='swift build --scratch-path reports/codeql-spm-build'
 ```
 
-DB 作成・解析のログと SARIF を保存し、抽出対象・警告・`runs[].results` を確認する。suite / パックのバージョンも記録する。処理成功と脆弱性未検出を分け、検出時は rule ID・箇所・重大度・データフローを調査し、修正後に再解析する。既存 CI で実施する場合は macOS ランナー・ビルドとクエリ設定・対象 SHA・完了結果・SARIF または alerts を確認する。
+既存 CI で実施する場合も、macOS ランナーと Swift のビルド設定を確認する。
 
 ### Address Sanitizer / Thread Sanitizer 付きテスト
 
@@ -144,7 +144,7 @@ swift test --sanitize address --scratch-path reports/asan-spm > reports/asan-spm
 swift test --sanitize thread --scratch-path reports/tsan-spm > reports/tsan-spm.log 2>&1
 ```
 
-各実行の終了コード、対象ターゲット、テスト件数、診断スタックを保存する。Xcode で `.xcresult` を開き、Test Report の失敗・runtime issues と生ログを確認する。CLI で読む場合は採用 Xcode の `xcrun xcresulttool help` から対応する抽出方法を選ぶ。テスト成功だけで合格にせず、Sanitizer 診断がないことも確認する。検出時は条件を再現して修正し、該当 Sanitizer と通常テストを再実行する。検査範囲は実行経路・計装済みコードに限られ、テスト 0 件や起動失敗は合格にしない。
+Xcode で `.xcresult` を開き、Test Report の失敗・runtime issues と生ログを確認する。CLI で読む場合は採用 Xcode の `xcrun xcresulttool help` から対応する抽出方法を選ぶ。テスト 0 件や起動失敗は合格にしない。
 
 ### SwiftPM 依存ライブラリの既知脆弱性検査
 
@@ -169,9 +169,7 @@ swift test --sanitize thread --scratch-path reports/tsan-spm > reports/tsan-spm.
    ```
 
 4. `results[].packages` のパッケージ名（例: `github.com/apple/swift-nio`）、`SwiftURL`、バージョン、抽出件数を元の pins と突き合わせる。推移的依存も **そのロックに解決・記録され、抽出された範囲** が対象。OSV-Scanner の再帰探索では `.gitignore` により漏れる可能性があるため、ネストしたロックは明示的に指定する。CocoaPods / Carthage や別管理のバイナリはこの監査に含めず、対応ツールで別途監査するか未確認範囲として残す。
-5. OSV-Scanner 2.7.0 の終了コードは 0=検出なし、1=検出あり、127=一般エラー、128=依存の抽出なし。その他の非 0 もログと公式の終了コード定義を確認する。0 でも全 pins の照合・DB への問い合わせ完了を確認し、漏れがあれば全体合格にしない。更新確認コマンドで代替せず、advisory ID・影響版・修正版・推移的な依存経路を調べて修正・再監査する。
-
-既知脆弱性の DB 収録範囲に限られ、未検出は安全の保証ではない。DB / ネットワーク / 形式対応が不足する場合は、対応版の監査ツールや承認済み代替手段を再開条件にする。ソース送信を伴う新しい外部サービスを無断で導入しない。
+5. OSV-Scanner 2.7.0 の終了コードは 0=検出なし、1=検出あり、127=一般エラー、128=依存の抽出なし。その他の非 0 もログと[公式の終了コード定義](https://google.github.io/osv-scanner/output/)を確認する。0 でも全 pins の照合・DB への問い合わせ完了を確認し、漏れがあれば全体合格にしない。
 
 ## 設定と補足
 
