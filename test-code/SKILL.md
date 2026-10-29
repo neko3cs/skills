@@ -46,6 +46,6 @@ license: MIT
 
 対象プロジェクト、対象コミット（未コミット差分の有無）、実行環境・ツールとバージョン、実行コマンド、各ステップの成否、カバレッジ・ミューテーションの実測値とレポートの場所を簡潔に示す。「確認済み」「失敗・基準未達」「対象外（理由付き）」「未確認（実行できなかった理由付き）」を区別する。
 
-セキュリティ検証は種類ごとに、処理の成否と検出の有無、検査範囲・除外・限界、検出 ID・重大度・対応、ログ / SARIF / xcresult / CI 実行 URL を分けて報告する。判定例は [references/security.md](references/security.md)、この手順自体の検証証跡は [references/security-validation.md](references/security-validation.md) を参照する。
+セキュリティ検証は種類ごとに、処理の成否と検出の有無、検査範囲・除外・限界、検出 ID・重大度・対応、ログ / SARIF / xcresult / CI 実行 URL を分けて報告する。判定例は [references/security.md](references/security.md) を参照する。
 
 このスキルが担当するのは実装後の検証。TDD の実装サイクルには `test-as-tdd` を使う。コミット・push・PR 作成は、このスキルの呼び出しだけでは許可されたとみなさない。
