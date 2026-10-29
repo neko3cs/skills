@@ -1,10 +1,10 @@
 ---
-name: test-project
+name: test-code
 description: Run a project's post-implementation quality gate, choosing .NET, iOS/Swift, or TypeScript procedures from repository evidence. Use when asked to test a project, run quality checks before commit or PR, or「テストして」「品質ゲートを通して」「実装後の検証をして」. Covers formatting, lint/type checks where applicable, unit and E2E/UI tests, coverage, property-based tests, and mutation tests.
 license: MIT
 ---
 
-# test-project
+# test-code
 
 実装後の品質ゲートを実行する。プロジェクトの構成と変更対象から手順を選び、該当する参照ファイルだけを読む。
 
