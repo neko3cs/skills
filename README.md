@@ -23,7 +23,7 @@
 | **hello-world** | グローバルスキルの構造を示すための基本的なサンプルです。 |
 | **python-scripting** | `uv` を使って Python スクリプトを実行し、外部依存関係はインライン依存関係で宣言する運用を案内します。 |
 | **test-as-tdd** | TODOリスト分解とRed-Green-Refactorのサイクルで、テスト駆動開発（TDD）形式の実装を進めさせます。 |
-| **test-code** | プロジェクト構成と変更対象から .NET・iOS/Swift・TypeScript の手順を選び、実装後の品質ゲートを実行します。 |
+| **test-code** | プロジェクト構成と変更対象から .NET・iOS/Swift・TypeScript・Go の手順を選び、実装後の品質ゲートを実行します。Go は標準ツールを優先します。 |
 | **refactor-code** | AIが書いた冗長なTypeScript / Go / C# / Swift のコードとテストを、振る舞いを変えずに人間が読みやすい形へリファクタリングします。ドキュメントコメントは削らずに質を上げます。 |
 | **resolve-issue** | 指定したGitHub Issueをブランチ作成・実装・テスト追加・PRオープンの一連の手順で解決します。 |
 | **update-agentsmd** | AGENTS.md を作成・更新して別AIへの引き継ぎ状態を作ります。暗黙知・課題事項・事故集・スナップショットを追加・更新します。 |
