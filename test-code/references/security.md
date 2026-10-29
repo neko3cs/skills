@@ -74,7 +74,7 @@ codeql database analyze reports/codeql-db \
 | 証跡 | ログ、SARIF、xcresult、監査 JSON、CI run / artifact URL、再検証結果 |
 | 残課題 | 未確認理由、対象外理由、再開条件、既知の制限 |
 
-形式例: `CodeQL: 処理成功 / 検出あり（rule ID …）/ ゲート失敗 / SHA … / suite … / reports/codeql.sarif`。Lint 成功、通常テスト成功、解析処理成功、脆弱性未検出は独立した項目にする。実サンプルでの判定確認は [security-validation.md](security-validation.md) を参照する。
+形式例: `CodeQL: 処理成功 / 検出あり（rule ID …）/ ゲート失敗 / SHA … / suite … / reports/codeql.sarif`。Lint 成功、通常テスト成功、解析処理成功、脆弱性未検出は独立した項目にする。
 
 ## 公式資料
 
