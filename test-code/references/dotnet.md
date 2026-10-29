@@ -31,6 +31,35 @@
    - まずUnitTestが安定していることを確認したうえで、通常は単体テストプロジェクトのディレクトリから `dotnet stryker` を実行します。
    - **合格ライン: ミューテーションスコア 90% 以上。100% を目指しますが、テストが無意味に複雑になる・コストに見合わない場合はできるところまでとします。**
 
+## セキュリティ検証
+
+[共通手順](security.md) に従い、通常ゲートに以下を追加する。
+
+- **CodeQL**: C# と対応 SDK を確認する。`.fsproj` / F# は CodeQL の C# 解析の対象外とし、混在ソリューションでも区別する。既存 CI を優先し、ローカルでビルドを抽出する例は次のとおり。新しい DB を使い、`App.slnx` を実際の対象に置き換える。
+
+  ```sh
+  codeql database create reports/codeql-csharp-db --language=csharp --source-root=. \
+    --command='dotnet build App.slnx --no-incremental'
+  codeql database analyze reports/codeql-csharp-db \
+    codeql/csharp-queries:codeql-suites/csharp-security-extended.qls \
+    --format=sarif-latest --output=reports/codeql-csharp.sarif
+  ```
+
+  Analyzer / `dotnet format` の成功と CodeQL の検出結果は分け、抽出ログ・SARIF・重大度を確認する。
+- **Sanitizer**: 純粋な managed コードは Xcode ASan / TSan の対象外。P/Invoke や C++ の自前ビルドを含む場合は、ネイティブ側の対応 OS・コンパイラ・計装テストを確認して別途実行する。実行できない適用対象は未確認とする。
+- **依存監査**: SDK / NuGet、`NuGet.Config` の監査データソース、ロック / restore 結果を確認する。SDK に対応する構文で実行する。
+
+  ```sh
+  # .NET 10 以降の例。古い SDK は dotnet list App.slnx package ... を確認
+  dotnet restore App.slnx
+  dotnet package list --project App.slnx --vulnerable --include-transitive --format json > reports/nuget-audit.json
+  ```
+
+  直接・推移的依存と全対象フレームワークを確認し、NuGet の監査データ取得エラーも読む。終了コード 0 だけで未検出とせず、JSON の advisory・重大度・影響パッケージを確認する。private feed や未収録パッケージは制限として報告する。検出時の修正・再監査と最終判定は共通手順に従う。
+
+- [dotnet package list の構文・脆弱性一覧](https://learn.microsoft.com/ja-jp/dotnet/core/tools/dotnet-package-list)
+- [NuGet の監査とデータソース](https://learn.microsoft.com/nuget/concepts/auditing-packages)
+
 ## 設定と補足
 
 - `dotnet format` → UnitTest → e2e → PBT → Mutationの順に個別で実行し、前のステップに失敗がないことを確認してから次へ進んでください。失敗を修正したら、変更の影響を受けるステップを再実行してください。
