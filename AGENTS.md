@@ -20,7 +20,7 @@ There is no build, no test suite, and no CI. Nothing to run.
 ## Conventions
 
 - `SKILL.md` follows <https://agentskills.io/specification>.
-- Frontmatter `description` is **English**; the `SKILL.md` body is **Japanese**. `README.md` is Japanese; `AGENTS.md` and `PLAN.md` are English.
+- Frontmatter `description` is **English**; the `SKILL.md` body is **Japanese**. `README.md` is Japanese; `AGENTS.md` is English.
 - `license: MIT` on every skill.
 - **Do not invent subdirectory names.** Use `references/` (documents), `assets/` (templates, schemas, images), `scripts/` (executables), even when a skill-specific name would read better. Consistency across skills beats the better name.
 - Reference files inside a skill by path relative to the skill root.
