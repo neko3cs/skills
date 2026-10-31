@@ -10,7 +10,6 @@
 ## Key References
 - `architecture.md`（design-docs 管理。配置先はプロジェクト依存）— 存在する場合のみ。最新でない場合は「コードを正とする」と明記
 - `specification.md` / `requirements.md` / `design.md` — 同上、必要な場合のみ
-- `PLAN.md` — <存在する場合のみポインタを置く>
 
 ## What This Project Is (and Is Not)
 - <非交渉事項／AIが提案してはいけないこと>
