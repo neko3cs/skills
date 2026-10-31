@@ -39,9 +39,4 @@
 
 ## Distribution / Operational Policy
 - <配布・運用上の外部制約（対象地域、年齢制限、外部サービスの規約など）>
-
-## Incidents
-| Date | What went wrong | Prevention |
-| :--- | :--- | :--- |
-| YYYY-MM-DD | <what happened> | <one-sentence prevention> |
 ```
