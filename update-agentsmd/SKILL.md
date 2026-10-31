@@ -1,6 +1,6 @@
 ---
 name: update-agentsmd
-description: Create or update AGENTS.md so a zero-context AI can continue work. Mines the current conversation history for tacit knowledge — non-obvious "why", implicit constraints, gotchas — that isn't derivable from code, instead of interviewing the user. Use when asked to update AGENTS.md or prepare a handoff.
+description: Create, update, or review AGENTS.md so a zero-context AI can continue work. Mines the current conversation history for tacit knowledge — non-obvious "why", implicit constraints, gotchas — that isn't derivable from code, instead of interviewing the user, and never overwrites AGENTS.md without showing the diff for approval. Use whenever AGENTS.md is being created, edited, reviewed, or pruned — including a small edit in the middle of other work — or when preparing a handoff ("update AGENTS.md", "add this to AGENTS.md", "review AGENTS.md", "AGENTS.md を更新して", "AGENTS.md に追記して", "AGENTS.md を見直して", "引き継ぎを書いて").
 license: MIT
 ---
 
@@ -26,29 +26,34 @@ Issue はこのスキルの成果物ではありません。Issue を立てら�
 
 **暗黙知の保存先を Claude の自動メモリ機能に委ねない。** 理由は2つ。(1) 自動メモリは Claude 専用で、Codex・Gemini CLI など他のハーネスに切り替えると情報が失われる。`AGENTS.md` はハーネスを問わず読まれる前提のファイル。(2) 自動保存はユーザーの意図しない情報が蓄積されやすく、想定外の挙動に傾く傾向がある。暗黙知は本スキルの手順に従い、人間のレビューを経て `AGENTS.md` に書く。
 
-ルールの優先順位: グローバル指示ファイル（`~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md` / `~/.gemini/GEMINI.md` / `~/.copilot/copilot-instructions.md` などにシンボリックリンクされた同一実体）＞ 以下の判断基準。
+グローバル指示と矛盾する場合は、グローバル指示を優先します。
 
 ## 判断基準
 
-1行ごとに「**この行を消したらエージェントが間違えるか**」で判断します。No なら消します。毎ターン読み込まれるファイルなので、目安は約100行 / 約2,500トークンです。
+1行ごとに「**この行を消したらエージェントが間違えるか**」で判断します。No なら消します。
+
+長さを抑える理由はコストです。ファイルの長さや指示の位置は指示の守られ方に影響しない一方（arXiv:2605.10039）、毎回読み込まれるぶん推論コストが増えます（context file で平均20%以上。arXiv:2602.11988）。目安は Anthropic 公式の200行未満です。Codex は合計32 KiB で読み込みを打ち切ります（いずれも2026年11月時点の公式ドキュメント）。
 
 ### 書かない
 
 - README・コード・設定ファイル・`git log` を見れば分かること（採用ライブラリ名、ディレクトリの中身、過去の修正履歴）
+- リポジトリやプロダクトの概要・紹介文。効果が確認されていない（arXiv:2602.11988）
 - アーキテクチャ・仕様・要件など静的な設計情報（`design-docs` スキルの管轄。書くのはそちらのファイルで、`AGENTS.md` は参照のみ）
-- 一般論（「テストを書きましょう」「型を付けましょう」）
+- 一般論（「テストを書きましょう」「型を付けましょう」）や、言語・フレームワークの標準どおりの慣習
 - グローバル指示や他のスキルに既にある指示の再掲
 - 複数ステップの手順（how-to）。スキルに切り出す
 - テスト結果など、実行すれば分かる状態
-- プロダクトの紹介文。README と重複する範囲は書きません
+- 必ず止めたい操作の禁止そのもの。指示ファイルは強制力のある設定ではなく文脈として扱われるので、hooks / permissions で止める。`AGENTS.md` には「なぜ止めているか」だけを書く
 
 ### 書く
 
 - 非自明な Why（なぜこの設計／制約を選んだか）
 - 型やコメントで表現しきれていない制約
+- 言語やフレームワークの標準と違う独自の慣習。context file が最も役立つのはここ（arXiv:2602.11988）
 - プロダクトの非交渉事項。AIが提案してはいけないこと
 - 踏みやすい落とし穴。**説明を長文にせず、再現するテストや事故ったコミットのパスを指す**
 - 実行コマンド（対応するテストスキルがあればそれを使う旨）
+- 運用上の注意。「この操作は遅い・高い、代わりにこれを使う」の形で書く。行動の変化が実測できたのはこの種類だけ（arXiv:2607.27250）
 - 配布・運用上の外部制約（対象地域、年齢制限、外部サービスの規約など）
 - 既存の設計ドキュメントへの参照。古い場合は「コードを正とする」と明記する
 
@@ -59,6 +64,8 @@ Issue はこのスキルの成果物ではありません。Issue を立てら�
 - 環境やツールのバージョンに依存する事実には、確認したバージョンを添える（例: 「Codex 0.145.0 で計測」）。古くなったと判断できるようにするため
 
 ## 手順
+
+**確認なしに `AGENTS.md` を上書きしない。** 小さな修正でも、書き込む前に手順5の分類表と差分を示して承認を待ちます。LLM が書いた context file は効果がないという結果があり（arXiv:2602.11988）、人間のレビューが品質の担保になるためです。
 
 暗黙知はコードベースではなく会話履歴の中にあります。**ユーザーに直接質問しない。**聞いても、何が暗黙知にあたるかを本人が自覚していないことが多く、うまく答えが返ってこないため、代わりに手順3でこのセッションの会話履歴を遡って拾います。コードを読んで埋められる部分だけで完走しないこと。
 
