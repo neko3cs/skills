@@ -15,11 +15,11 @@
 - <非交渉事項／AIが提案してはいけないこと>
 
 ## Architecture
-<!-- design-docs スキルの architecture.md があればこのセクションは省略し、Key References の参照だけにする -->
-- <design-docs 未導入の場合のみ、採用している技術・パターンの要点を書く>
+<!-- design-docs スキルの architecture.md があればこのセクションは省略し、Key References の参照だけにする。概要は書かない -->
+- <design-docs 未導入の場合のみ、標準と違う点・非自明な点だけを書く>
 
 ## Data Models / Domain Concepts
-- <ドメイン特有の用語・モデル関係>
+- <ドメイン特有の用語・モデル関係のうち、コードから読み取れない・一般的な意味と違うものだけ>
 
 ## Commands
 <!-- テストスキル test-code があれば、それを使う旨を書く -->
@@ -27,6 +27,8 @@
 # Format
 # Tests
 \`\`\`
+- <遅い・高い操作>: <代わりに使うもの>
+
 
 ## Development Rules
 - <決まった手順を踏むべきこと>
