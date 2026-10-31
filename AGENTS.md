@@ -31,7 +31,3 @@ There is no build, no test suite, and no CI. Nothing to run.
 - `name` must **exactly match the directory name**. Lowercase, digits, and hyphens only; no leading, trailing, or consecutive hyphens.
 - `description` must state **what the skill does and when to use it**. Skills load by intent-match against this field, so it alone decides whether the skill fires. Include the phrasings a user would actually type, in both languages where relevant.
 - Keep the body within ~500 lines. Push judgment criteria and long source material into `references/` so they load only when needed.
-
-## Incidents
-
-2026-07-27 | Two skills (`update-planmd`, `design-docs`) were missing from both the `README.md` and `AGENTS.md` skill lists; the same list was maintained in three places. | Keep the list in `README.md` only, and add the entry in the same commit as the skill.

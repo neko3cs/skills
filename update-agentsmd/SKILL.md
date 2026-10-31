@@ -1,6 +1,6 @@
 ---
 name: update-agentsmd
-description: Create or update AGENTS.md so a zero-context AI can continue work. Mines the current conversation history for tacit knowledge — non-obvious "why", implicit constraints, gotchas, incidents — that isn't derivable from code, instead of interviewing the user. Use when asked to update AGENTS.md or prepare a handoff.
+description: Create or update AGENTS.md so a zero-context AI can continue work. Mines the current conversation history for tacit knowledge — non-obvious "why", implicit constraints, gotchas — that isn't derivable from code, instead of interviewing the user. Use when asked to update AGENTS.md or prepare a handoff.
 license: MIT
 ---
 
@@ -10,13 +10,14 @@ license: MIT
 
 コンテキストゼロの別AIが読むだけで作業を継続できる `AGENTS.md` を作成・更新します。
 
-`AGENTS.md` には、コードや設計ドキュメントから復元できない**暗黙知**（非自明な Why・落とし穴・事故・型やコメントで表現しきれない制約）を中心に置きます。アーキテクチャ・仕様・要件といった**静的な設計情報**は `design-docs` スキルの管轄です。対象プロジェクトに `requirements.md` / `specification.md` / `architecture.md` / `design.md` があれば（無ければ作成を検討すべきなら）内容はそちらに書き、`AGENTS.md` 側は `Key References` から1行のポインタで参照するだけに留めます（[design-docs](../design-docs/SKILL.md) 参照）。
+`AGENTS.md` には、コードや設計ドキュメントから復元できない**暗黙知**（非自明な Why・落とし穴・型やコメントで表現しきれない制約）を中心に置きます。アーキテクチャ・仕様・要件といった**静的な設計情報**は `design-docs` スキルの管轄です。対象プロジェクトに `requirements.md` / `specification.md` / `architecture.md` / `design.md` があれば（無ければ作成を検討すべきなら）内容はそちらに書き、`AGENTS.md` 側は `Key References` から1行のポインタで参照するだけに留めます（[design-docs](../design-docs/SKILL.md) 参照）。
 
 情報は次の表で振り分けます。期限切れになるもの（TODO・未解決の問い・進行中の状態）は `AGENTS.md` に書きません。
 
 | 情報 | 書き先 |
 | :--- | :--- |
-| 確定していて変わらないもの — コマンド・構成・規約・制約・非自明な Why・落とし穴・事故 | `AGENTS.md` |
+| 今も成り立つもの — コマンド・構成・規約・制約・非自明な Why・落とし穴・再発防止の規則 | `AGENTS.md` |
+| 過去の経緯 — いつ・何が起きて・なぜそう決めたか | commit メッセージ |
 | 仕様変更・未解決の問い・他の人が知る必要のあること | GitHub Issue |
 | セッションをまたいで覚えておく作業中の状態 | 作業中の GitHub Issue のコメント |
 | そのセッション内だけのタスクリスト | ファイルにしない |
@@ -54,7 +55,8 @@ Issue はこのスキルの成果物ではありません。Issue を立てら�
 ### 並べ方
 
 - 重要なルールほど先頭に置く
-- 事故は `## Incidents` に `YYYY-MM-DD | 何が起きたか | 一文の再発防止策` で記録する
+- 事故の記録（日付・経緯の一覧）は置かない。過去の判断は今も有効とは限らず、残すと古い判断に従わせてしまう。導いた再発防止策だけを、関係する節に現在形の規則として書く
+- 環境やツールのバージョンに依存する事実には、確認したバージョンを添える（例: 「Codex 0.145.0 で計測」）。古くなったと判断できるようにするため
 
 ## 手順
 
@@ -69,8 +71,8 @@ Issue はこのスキルの成果物ではありません。Issue を立てら�
    - ユーザーが明示した制約・非交渉事項
 4. **拾えた内容だけを反映する。**会話に出てこない情報は推測で埋めない。埋まらない箇所は無理に埋めず空欄のままにする。仕様レベルの未決も着手中のものも Issue に回す
 5. 差分更新のみ（全文書き換えしない）。Why 系は事実が変わらない限り残す。書き込む前に、行ごとの分類表（keep / remove / move-to-skill と理由）と差分をユーザーに示し、承認を待つ
-6. 育てるのは失敗したときだけ。実際に事故った内容を `Incidents` に足し、そこから制約を導く
-7. 更新後、剪定パスを1回かける
+6. 育てるのは失敗したときだけ。実際に事故ったら、そこから導いた規則を関係する節に足す。経緯は commit メッセージに書く
+7. 更新後、剪定パスを1回かける。今は成り立たない規則、存在しないファイル・コマンドへの参照も消す（Claude Code なら `/doctor prompt-audit` で洗い出せる）
 
 ## 参考資料
 
