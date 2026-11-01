@@ -2,7 +2,7 @@
 
 ## What This Repo Is
 
-The checkout at `~/.claude/skills` is what every harness loads, so whatever is on disk there — including the checked-out branch — is live immediately. Never edit files or switch branches in it. Work in a separate `git worktree` on a new branch, and after the PR merges, run `git pull` on `main` in `~/.claude/skills` to deploy.
+The working tree **is** `~/.claude/skills`. A save goes live across every harness immediately — before any commit, branch, or PR. Treat saving here as deploying.
 
 Every change goes through a branch and a pull request. `main` is protected on GitHub, so direct pushes are rejected.
 
