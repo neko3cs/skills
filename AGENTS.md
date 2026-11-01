@@ -4,7 +4,7 @@
 
 The working tree **is** `~/.claude/skills`. A save goes live across every harness immediately — before any commit, branch, or PR. Treat saving here as deploying.
 
-Commit and push straight to `main`. There is no branch/PR review workflow here.
+Every change goes through a branch and a pull request. `main` is protected on GitHub, so direct pushes are rejected.
 
 Two artifact types live side by side and are not interchangeable:
 
