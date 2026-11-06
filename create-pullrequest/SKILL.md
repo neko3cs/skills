@@ -1,6 +1,6 @@
 ---
 name: create-pullrequest
-description: Creates a GitHub Pull Request with the gh CLI using neko3cs/.github's org-wide pull_request_template.md, filling each section from the actual diff/commits and honestly separating "確認済み" from "未確認" in the 動作確認 section based on what was actually verified. Use when the user asks to create/open a Pull Request in a neko3cs org repository.
+description: Creates a GitHub Pull Request with the gh CLI using neko3cs/.github's org-wide pull_request_template.md, filling each section from the actual diff/commits and honestly separating "確認済み" from "未確認" in the 動作確認 section based on what was actually verified. Use whenever a Pull Request in a neko3cs org repository is being created (draft or ready) or its body is being rewritten — when the user asks ("create a PR", "open a draft PR", "PRを作って", "PR本文を更新して"), or when a workflow step says to open a PR or update its body.
 license: MIT
 ---
 

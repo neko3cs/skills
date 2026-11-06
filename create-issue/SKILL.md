@@ -1,6 +1,6 @@
 ---
 name: create-issue
-description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use when the user asks to create, file, or open a GitHub Issue (bug report or feature request) in a neko3cs org repository.
+description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use whenever a GitHub Issue (bug report or feature request) is being filed in a neko3cs org repository — when the user asks ("create an issue", "file a bug", "Issueを作って", "バグ報告を起票して", "機能要望をIssueにして"), or when a workflow step says to file one.
 license: MIT
 ---
 
