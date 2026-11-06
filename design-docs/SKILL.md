@@ -37,7 +37,7 @@ license: MIT
 
    > `architecture.md` は常時読ませたい情報です。`AGENTS.md` に `docs/architecture.md` への参照を1行追加することを推奨します。追加しますか？
 
-   ユーザーが了承したら、`AGENTS.md` の `Key References` に1行足す（[update-agentsmd](../update-agentsmd/SKILL.md) 参照）。
+   ユーザーが了承したら、`AGENTS.md` の `Key References` に1行足す。
 
 ## 手順: 更新モード
 
