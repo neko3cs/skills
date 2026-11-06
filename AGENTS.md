@@ -6,15 +6,6 @@ The working tree **is** `~/.claude/skills`. A save goes live across every harnes
 
 Every change goes through a branch and a pull request. `main` is protected on GitHub, so direct pushes are rejected.
 
-Two artifact types live side by side and are not interchangeable:
-
-| Type | Marker | Examples |
-| :--- | :--- | :--- |
-| Agent Skill | `<name>/SKILL.md` | most directories |
-| Claude Code plugin | `<name>/.claude-plugin/plugin.json` with `agents/` `commands/` `hooks/` `scripts/` | `agy/`, `copilot/` |
-
-Plugins have no `SKILL.md`. The rules below do not apply to them.
-
 There is no build, no test suite, and no CI. Nothing to run.
 
 ## Conventions
