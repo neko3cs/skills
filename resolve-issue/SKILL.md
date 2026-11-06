@@ -45,7 +45,7 @@ compatibility: Requires git, gh CLI, and a test-capable project environment
    - 振る舞いではない条件（「テストを書く」など）は受入条件から外す。品質は `test-code` が担う。
    - 見た目・操作感など表にできないものは、チェックボックスの箇条書きで残す。UATで人が参考にする項目になる。
 3. 変更が設計に関わる場合は `design-docs` で該当ファイルを更新する。
-4. コミットして push し、`create-github-pullrequest` で **Draft PR** を作る。設計ドキュメントの差分が無い場合は `git commit --allow-empty` で空のコミットを作る。本文の冒頭に、確認してほしいこと（受入条件の表、`？` の行）を並べる。
+4. コミットして push し、`create-pullrequest` で **Draft PR** を作る。設計ドキュメントの差分が無い場合は `git commit --allow-empty` で空のコミットを作る。本文の冒頭に、確認してほしいこと（受入条件の表、`？` の行）を並べる。
 5. 段階2の実装者が知る必要のあること（調べて分かった制約、選ばなかった案とその理由）を、PR本文か PRコメントに書く。
 6. 人に受入条件の確認を頼んで止まる。確認が済んだら、セッションを作り直して同じIssueで呼び直すよう伝える。
 
@@ -77,7 +77,7 @@ compatibility: Requires git, gh CLI, and a test-capable project environment
 
 | スキル | 使う場面 |
 | :--- | :--- |
-| `create-github-pullrequest` | 段階1の Draft PR 作成、段階2の本文更新 |
+| `create-pullrequest` | 段階1の Draft PR 作成、段階2の本文更新 |
 | `design-docs` | 段階1の設計ドキュメント更新、段階2の食い違いの修正 |
 | `test-as-tdd` | 段階2のテストと実装 |
 | `test-code` | 段階2の品質ゲート |

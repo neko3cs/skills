@@ -1,10 +1,10 @@
 ---
-name: create-github-issue
+name: create-issue
 description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use when the user asks to create, file, or open a GitHub Issue (bug report or feature request) in a neko3cs org repository.
 license: MIT
 ---
 
-# create-github-issue Skill
+# create-issue Skill
 
 ## 概要
 

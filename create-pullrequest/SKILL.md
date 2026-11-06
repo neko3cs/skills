@@ -1,10 +1,10 @@
 ---
-name: create-github-pullrequest
+name: create-pullrequest
 description: Creates a GitHub Pull Request with the gh CLI using neko3cs/.github's org-wide pull_request_template.md, filling each section from the actual diff/commits and honestly separating "確認済み" from "未確認" in the 動作確認 section based on what was actually verified. Use when the user asks to create/open a Pull Request in a neko3cs org repository.
 license: MIT
 ---
 
-# create-github-pullrequest Skill
+# create-pullrequest Skill
 
 ## 概要
 
@@ -15,7 +15,7 @@ GitHubにPull Requestを作成する際は、必ず `gh` コマンドを使い�
 ### 1. 前提を確認する
 
 - 現在のブランチと、ベースブランチ（通常 `main`）から分岐後の変更内容（コミット・diff）を確認する。
-- 変更がリモートにpushされているか確認する。されていなければ、push してよいかユーザーに確認する。
+- 変更がリモートにpushされているか確認する。されていなければ、ユーザーに確認せずに push する（`git push -u origin <branch>`）。
 - PRを作成するリポジトリ・ベースブランチ・ヘッドブランチを確定する。
 - Draft PRで作るよう指示されている場合（`resolve-issue` の段階1など）は、Draftとして作る。
 
@@ -74,7 +74,7 @@ gh pr create -R <owner>/<repo> \
 - Draft PRの場合は `--draft` を付ける。
 - 本文は改行・表（Markdownテーブル）を含むため、シェルのクォート崩れを避けるためスクラッチディレクトリに一時ファイルを作成し `--body-file` で渡す。作成後は一時ファイルを削除する。
 - 対象リポジトリ・ベースブランチは特に指定がなければ作業中のリポジトリと `main` を使う。
-- 前提（push状況など）に問題がない限り、内容が揃い次第このステップまで確認なしで進めて作成する。マージはユーザーの判断であり、このスキルの範囲はPRを開くところまで。作成後にPR URLを提示する。
+- push から PR の作成まで、途中でユーザーに確認せずに進める。マージはユーザーの判断であり、このスキルの範囲はPRを開くところまで。作成後にPR URLを提示する。
 
 ## 注意事項
 
