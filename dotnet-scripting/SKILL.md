@@ -1,6 +1,7 @@
 ---
 name: dotnet-scripting
 description: Process data or run ad-hoc .NET scripts by piping C# to `dotnet run -`, with `#:package` for external libraries. Use when running a quick data-processing script or one-liner and .NET is available — prefer this over python-scripting in that case.
+license: MIT
 ---
 
 # データ処理スクリプト作成ガイド（C# file-based apps）
