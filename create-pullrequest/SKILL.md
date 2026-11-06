@@ -1,10 +1,10 @@
 ---
-name: create-github-pullrequest
+name: create-pullrequest
 description: Creates a GitHub Pull Request with the gh CLI using neko3cs/.github's org-wide pull_request_template.md, filling each section from the actual diff/commits and honestly separating "確認済み" from "未確認" in the 動作確認 section based on what was actually verified. Use when the user asks to create/open a Pull Request in a neko3cs org repository.
 license: MIT
 ---
 
-# create-github-pullrequest Skill
+# create-pullrequest Skill
 
 ## 概要
 

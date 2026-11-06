@@ -17,8 +17,8 @@
 
 | スキル | 説明 |
 | :--- | :--- |
-| **create-github-issue** | `gh` コマンドとneko3cs/.githubのIssueテンプレート（バグ報告/機能要望）を使って、必須項目を埋めたGitHub Issueを作成します。 |
-| **create-github-pullrequest** | `gh` コマンドとneko3cs/.githubのPRテンプレートを使って、実際の変更内容に基づきPull Requestを作成します。 |
+| **create-issue** | `gh` コマンドとneko3cs/.githubのIssueテンプレート（バグ報告/機能要望）を使って、必須項目を埋めたGitHub Issueを作成します。 |
+| **create-pullrequest** | `gh` コマンドとneko3cs/.githubのPRテンプレートを使って、実際の変更内容に基づきPull Requestを作成します。 |
 | **dotnet-scripting** | C# file-based apps と `dotnet run -` を使い、.NET でワンライナーや小さなデータ処理スクリプトを実行する方法を案内します。 |
 | **hello-world** | グローバルスキルの構造を示すための基本的なサンプルです。 |
 | **python-scripting** | `uv` を使って Python スクリプトを実行し、外部依存関係はインライン依存関係で宣言する運用を案内します。 |
