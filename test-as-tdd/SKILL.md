@@ -1,6 +1,6 @@
 ---
 name: test-as-tdd
-description: Drives implementation work through the Red-Green-Refactor TDD cycle (TODO list decomposition, fake it / obvious implementation / triangulation, and test structure refactoring), based on Takuto Wada's TDD Boot Camp talk. Use when the user asks to implement a feature or fix "using TDD" / "TDDで" / "テスト駆動で", or asks to develop test-first.
+description: Drives implementation work through the Red-Green-Refactor TDD cycle (TODO list decomposition, fake it / obvious implementation / triangulation, and test structure refactoring), based on Takuto Wada's TDD Boot Camp talk. Use whenever a feature or fix is being implemented test-first — when the user asks for it ("using TDD", "TDDで", "テスト駆動で", "テストファーストで"), or when a workflow step being followed says to implement with TDD or to write tests and production code alternately (「TDDで実装する」「テストとプロダクトコードを交互に書く」).
 license: MIT
 ---
 

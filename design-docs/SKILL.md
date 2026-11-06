@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents — requirements.md (why/for whom), specification.md (what to build), architecture.md (how, always-on policy), design.md (how, per-feature detail) — scaffolding them from templates and routing later changes to the right file. Use when asked to write, set up, scaffold, or organize design docs for a project ("設計ドキュメントを作って", "ドキュメントを整備して", "設計書を用意して"), and equally when asked to update or refresh existing ones after a change ("design.md を更新して", "ドキュメントを最新化して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して").
+description: Creates and maintains a project's four design documents — requirements.md (why/for whom), specification.md (what to build), architecture.md (how, always-on policy), design.md (how, per-feature detail) — scaffolding them from templates and routing later changes to the right file. Use whenever a project's design docs need writing, setting up, scaffolding, or organizing ("設計ドキュメントを作って", "ドキュメントを整備して", "設計書を用意して") or updating after a change ("design.md を更新して", "ドキュメントを最新化して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the design docs, or to fix docs that drifted from the code.
 license: MIT
 ---
 

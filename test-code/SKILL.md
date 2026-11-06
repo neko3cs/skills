@@ -1,6 +1,6 @@
 ---
 name: test-code
-description: Run a project's post-implementation quality gate, choosing .NET, iOS/Swift, TypeScript, or Go procedures from repository evidence. Use when asked to test a project, run quality checks before commit or PR, or「テストして」「品質ゲートを通して」「実装後の検証をして」. Covers formatting, lint/type checks, unit and E2E/UI tests, coverage, property-based and mutation tests, plus applicability and results of CodeQL security analysis, sanitizer tests, and dependency vulnerability audits.
+description: Run a project's post-implementation quality gate, choosing .NET, iOS/Swift, TypeScript, or Go procedures from repository evidence. Use whenever implementation is done and the project needs verifying before commit or PR — when the user asks (「テストして」「品質ゲートを通して」「実装後の検証をして」, "run the tests", "run quality checks"), or when a workflow step says to pass the quality gate. Covers formatting, lint/type checks, unit and E2E/UI tests, coverage, property-based and mutation tests, plus applicability and results of CodeQL security analysis, sanitizer tests, and dependency vulnerability audits.
 license: MIT
 ---
 

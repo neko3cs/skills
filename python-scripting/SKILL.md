@@ -1,6 +1,6 @@
 ---
 name: python-scripting
-description: Run Python scripts via `uv run` with PEP 723 inline dependencies — no venvs, no `pip install`. Use when the user asks to process data or run a quick Python script.
+description: Run Python scripts via `uv run` with PEP 723 inline dependencies — no venvs, no `pip install`. Use whenever a quick Python script is the way to process data or automate a step — when the user asks ("Pythonで処理して", "スクリプトで集計して") or the task at hand needs one — instead of creating a venv or running `pip install`.
 license: MIT
 compatibility:
   - Requires `uv` on PATH
