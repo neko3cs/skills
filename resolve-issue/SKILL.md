@@ -1,6 +1,6 @@
 ---
 name: resolve-issue
-description: Resolves a GitHub issue on a single pull request in two phases — first agree on the contract (acceptance criteria, acceptance tests, design-doc updates) in a draft PR, then implement with TDD and mark the PR ready for review. Re-running on the same issue resumes from the current phase. Use when asked to resolve, fix, implement, or continue a specific GitHub issue by number (e.g. "/resolve-issue 4", "issue #4を解決して", "#4の続きをやって", "#4のレビューを反映して").
+description: Resolves a GitHub issue on a single pull request in two phases run in separate sessions — first settle the acceptance criteria (and any design-doc updates) in a draft PR, then, after the human clears the session and runs it again, implement with TDD and mark the PR ready for review. Re-running on the same issue detects the phase from the PR. Use when asked to resolve, fix, implement, or continue a specific GitHub issue by number (e.g. "/resolve-issue 4", "issue #4を解決して", "#4の続きをやって", "#4のレビューを反映して").
 license: MIT
 compatibility: Requires git, gh CLI, and a test-capable project environment
 ---
@@ -9,16 +9,16 @@ compatibility: Requires git, gh CLI, and a test-capable project environment
 
 ## 概要
 
-1つのIssueを1つのPRで解決します。PRは2段階で育てます。
+1つのIssueを1つのPRで解決します。PRは2段階で育て、**段階ごとに別のセッションで実行します**（設計者と実装者を分けるため）。
 
 | 段階 | PRの状態 | 中身 | 人が見るもの |
 | :--- | :--- | :--- | :--- |
-| 1. 契約 | Draft | 受入条件の確定、受け入れテスト（Red）、設計ドキュメントの差分 | 受入条件の表と `？` の行、テスト名 |
-| 2. 実装 | Ready for review | TDDによる実装、品質ゲート | テスト名の差分、CI、UAT |
+| 1. 受入条件 | Draft | 受入条件の確定、設計ドキュメントの差分 | 受入条件の表と `？` の行 |
+| 2. 実装 | Ready for review | テストと実装（TDD）、品質ゲート | PRの差分、受入条件を参考にしたUAT |
 
-- **契約は Issue の受入条件です。** 設計ドキュメントはAIが実装を間違えないための補助で、合意の対象ではありません。
-- 段階の間の状態は Issue と PR に残します。ファイル（`PLAN.md` など）には残しません。
-- 同じIssueで再び呼ばれたら、PRの状態から段階を判定して続きから再開します。
+- **正本は Issue の受入条件です。** テストはその写しで、設計ドキュメントはAIが実装を間違えないための補助です。どちらも合意の対象ではありません。
+- 段階2のセッションは段階1の会話を持ちません。段階1で決めたことは **すべて Issue と PR に書き残します**。ファイル（`PLAN.md` など）には残しません。
+- 段階2へ進む合図は、人がセッションを作り直す（または `/clear` する）ことと、同じIssueでこのスキルを呼び直すことです。
 
 ## 使い方
 
@@ -31,74 +31,63 @@ compatibility: Requires git, gh CLI, and a test-capable project environment
 1. `gh issue view <番号> --comments` でIssueを読む。
 2. 対応するPRを探す（`gh pr list --head <ブランチ名>`、見つからなければ `gh pr list --search "#<番号>"`）。
 3. 状態で分岐する。
-   - PRが無い → 段階1から始める
-   - Draft で、人のレビューコメントがまだ無い → 何もせず、確認待ちであることとPRのURLを伝える
-   - Draft で、レビューコメントがある → 反映する。契約を承認する旨があれば段階2へ進む
+   - PRが無い → 段階1
+   - Draft → 段階2。呼び直されたこと自体を、受入条件が承認された合図とみなす
    - Ready for review → レビューコメントに対応する
 
-## 軽い手順
+段階1を終えたのと同じセッションで呼ばれた場合は、段階2に進まず、セッションを作り直してから呼び直すよう伝える。
 
-次のすべてに当てはまる変更は、段階1のあと人の確認を待たずに段階2まで続けてよい。その場合はPR本文に「軽い手順で進めた理由」を1行書く。
-
-- 受入条件が具体的で、`？` の行が無い
-- 利用者から見える振る舞い・データモデル・画面遷移を変えない
-- 変更が1つのモジュールに収まる
-
-迷ったら軽い手順を使わない。
-
-## 段階1: 契約を固める
+## 段階1: 受入条件を固める
 
 1. ブランチを作る。`AGENTS.md` に指示（worktree を使わない、など）があれば従う。名前は `fix/issue-<番号>` または `feature/issue-<番号>`。
-2. 実装前のテストの成否を記録する（後で「元々失敗していたテスト」と「新たに壊したテスト」を区別するため）。
-3. 受入条件を見直し、Issue本文を更新する。
+2. 受入条件を見直し、Issue本文を更新する。
    - 計算・変換・入力チェックなど、入力から結果が決まるものは **入力と期待結果の表** にする。表を書こうとして決まらない行（境界値、欠けたデータ、異常系）は推測で埋めず、期待結果を `？` のまま残す。
    - 振る舞いではない条件（「テストを書く」など）は受入条件から外す。品質は `test-code` が担う。
-   - 見た目・操作感など表にできないものは、**UATチェックリスト** として残す。
-4. 受け入れテストを書く。
-   - 表の行をそのままデータとして読むパラメータ化テストにする。テストに独自の解釈を足さない。
-   - テスト名か説明に条件番号を含める（例: `条件2: JSONにない馬番は既存のまま残す`）。
-   - 実行し、**意図した理由で失敗すること**（Red）を確かめる。`？` の行はテストにせず、PRで問う。
-5. 変更が設計に関わる場合は `design-docs` で該当ファイルを更新する。
-6. コミットして push し、`create-github-pullrequest` で **Draft PR** を作る。本文の冒頭に、確認してほしいこと（受入条件の表、`？` の行、受け入れテスト名の一覧）を並べる。
-7. 人に確認を頼んで止まる（軽い手順の場合を除く）。
+   - 見た目・操作感など表にできないものは、チェックボックスの箇条書きで残す。UATで人が参考にする項目になる。
+3. 変更が設計に関わる場合は `design-docs` で該当ファイルを更新する。
+4. コミットして push し、`create-github-pullrequest` で **Draft PR** を作る。設計ドキュメントの差分が無い場合は `git commit --allow-empty` で空のコミットを作る。本文の冒頭に、確認してほしいこと（受入条件の表、`？` の行）を並べる。
+5. 段階2の実装者が知る必要のあること（調べて分かった制約、選ばなかった案とその理由）を、PR本文か PRコメントに書く。
+6. 人に受入条件の確認を頼んで止まる。確認が済んだら、セッションを作り直して同じIssueで呼び直すよう伝える。
 
 ## 段階2: 実装する
 
-1. 段階1のレビューコメントを反映する。受入条件や受け入れテストを変えた場合は、変えた内容をPRコメントで明示する。
-2. `test-as-tdd` に従い、単体テストとプロダクトコードを交互に書いて、受け入れテストを Green にする。
-3. **受け入れテストを自分の判断で書き換えて通さない。** 実装中に受入条件や受け入れテストが間違っていると判断したら、理由と修正案をPRコメントで示し、人の判断を待つ。契約の変更は人が決める。
-4. 実装後に設計ドキュメントとコードが食い違ったら、コードを正としてドキュメントを直し、その旨をPR本文に書く。
-5. `test-code` で品質ゲートを通す。手順2で記録した元々の失敗は無視してよいが、新たに失敗するようになったテストは直す。
-6. コミットして push し、PR本文を更新する（動作確認、UATチェックリスト、受入条件ごとの対応するテスト）。
-7. `gh pr ready <PR番号>` で Ready for review にする。マージはユーザーの判断で、このスキルの範囲はここまで。
+1. Issue本文、PR本文、Issue と PR のコメントを読み、段階1で決めたことと人のレビューを把握する。`？` の行が残っていて答えも無ければ、実装に入らず人に問う。
+2. 実装前のテストの成否を記録する（後で「元々失敗していたテスト」と「新たに壊したテスト」を区別するため）。
+3. `test-as-tdd` に従い、テストとプロダクトコードを交互に書く。
+   - テストの種類（単体、UI、E2E）と書き方は、プロジェクトの既存のテストに合わせる。受入条件のために新しい規約を作らない。
+   - 受入条件の表の行は、テストのデータとしてそのまま写す。テスト名か説明に条件番号を含め（例: `条件2: JSONにない馬番は既存のまま残す`）、人が Issue の表と見比べられるようにする。
+4. **受入条件を自分の判断で変えない。** 実装中に受入条件が間違っていると判断したら、理由と修正案をPRコメントで示し、人の判断を待つ。受入条件の変更は人が決める。
+5. 実装後に設計ドキュメントとコードが食い違ったら、コードを正としてドキュメントを直し、その旨をPR本文に書く。
+6. `test-code` で品質ゲートを通す。手順2で記録した元々の失敗は無視してよいが、新たに失敗するようになったテストは直す。
+7. コミットして push し、PR本文を更新する（動作確認、受入条件ごとの対応するテスト）。
+8. `gh pr ready <PR番号>` で Ready for review にする。マージはユーザーの判断で、このスキルの範囲はここまで。
 
 ## コミット
 
-- コミットメッセージに Issue 番号を含める（`Refs #<番号>`）。PR本文に `Closes #<番号>` を書く。
-- 受入条件・受け入れテストの変更は、実装とは別のコミットにする。レビューで契約の変更を見分けられるようにするため。
+コミットメッセージに Issue 番号を含める（`Refs #<番号>`）。PR本文に `Closes #<番号>` を書く。
 
 ## 出力形式
 
 各段階の終わりに、PRのURLと人に見てほしいことを示す。
 
-- 段階1: `？` の行と、確認してほしい受入条件
-- 段階2: UATチェックリスト
+- 段階1: `？` の行と確認してほしい受入条件、そして「確認後にセッションを作り直して呼び直す」こと
+- 段階2: UATで参考にする受入条件
 
 ## 他のスキルとの関係
 
 | スキル | 使う場面 |
 | :--- | :--- |
-| `create-github-pullrequest` | 段階1の Draft PR 作成 |
+| `create-github-pullrequest` | 段階1の Draft PR 作成、段階2の本文更新 |
 | `design-docs` | 段階1の設計ドキュメント更新、段階2の食い違いの修正 |
-| `test-as-tdd` | 段階2の実装 |
+| `test-as-tdd` | 段階2のテストと実装 |
 | `test-code` | 段階2の品質ゲート |
 
 ## サンプル対話
 
 **User:** /resolve-issue 44
 
-**Agent:** Issue #44 を確認しました。PRはまだ無いので、段階1から始めます。受入条件の2番目を表にしたところ、「既存のレースにあってJSONに無い馬番をどう扱うか」が決まっていなかったので `？` にしています。受け入れテストを書いて Red を確認し、Draft PR を作成しました。URL: ... 表の `？` の行と、受け入れテスト名の一覧をご確認ください。
+**Agent:** Issue #44 を確認しました。PRはまだ無いので、段階1から始めます。受入条件の2番目を表にしたところ、「既存のレースにあってJSONに無い馬番をどう扱うか」が決まっていなかったので `？` にし、Issue本文を更新しました。Draft PR を作成しました。URL: ... 表の `？` の行をご確認ください。確認が済んだら、セッションを作り直して `/resolve-issue 44` を呼び直してください。
 
-**User:** （PRに「JSONに無い馬番は残す。それ以外はOK」とコメント）/resolve-issue 44
+**User:** （Issueに「JSONに無い馬番は残す」とコメントし、`/clear` してから）/resolve-issue 44
 
-**Agent:** レビューコメントを反映し、`？` の行を「既存のまま残す」に確定してテストに加えました。続けて段階2として TDD で実装し、品質ゲートを通したうえで Ready for review にしました。URL: ... UATチェックリストはPR本文に載せています。
+**Agent:** Draft PR があるので段階2として進めます。Issueのコメントから、`？` の行は「既存のまま残す」と読み取り、Issue本文の表を確定しました。TDD でテストと実装を進め、品質ゲートを通したうえで Ready for review にしました。URL: ... UATでは Issue の受入条件を参考にご確認ください。

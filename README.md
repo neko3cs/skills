@@ -25,7 +25,7 @@
 | **test-as-tdd** | TODOリスト分解とRed-Green-Refactorのサイクルで、テスト駆動開発（TDD）形式の実装を進めさせます。 |
 | **test-code** | プロジェクト構成と変更対象から .NET・iOS/Swift・TypeScript・Go の品質ゲートを選び、CodeQL・Sanitizer・依存脆弱性検査の適用条件と結果も確認します。Go は標準ツールを優先します。 |
 | **refactor-code** | AIが書いた冗長なTypeScript / Go / C# / Swift のコードとテストを、振る舞いを変えずに人間が読みやすい形へリファクタリングします。ドキュメントコメントは削らずに質を上げます。 |
-| **resolve-issue** | 指定したGitHub Issueを1つのPRで2段階に分けて解決します。Draft PRで受入条件・受け入れテストを確認してから、TDDで実装してReady for reviewにします。同じIssueで再度呼ぶと続きから再開します。 |
+| **resolve-issue** | 指定したGitHub Issueを1つのPRで2段階に分けて解決します。Draft PRで受入条件を確認してから、セッションを作り直して呼び直すと、TDDでテストと実装を進めてReady for reviewにします。段階はPRの状態から判定します。 |
 | **update-agentsmd** | AGENTS.md の作成・更新・見直し全般（別作業の途中での小さな修正も含む）で、別AIへの引き継ぎ状態を作ります。コードから分からない暗黙知（非自明な理由・落とし穴・再発防止の規則）を追加・更新します。 |
 | **design-docs** | 設計ドキュメント4ファイル（requirements / specification / architecture / design）をテンプレートから作成し、変更内容に応じて更新すべきファイルを振り分けます。 |
 | **gyaru** | Claudeのチャット応答をギャル口調に変換します。`gyaru:heisei` で平成ギャル、`gyaru:reiwa` で令和ギャル、指定なしは平成ギャルです。 |
