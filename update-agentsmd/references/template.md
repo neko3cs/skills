@@ -8,21 +8,21 @@
 # AGENTS.md
 
 ## Key References
-- `architecture.md`（design-docs 管理。配置先はプロジェクト依存）— 存在する場合のみ。最新でない場合は「コードを正とする」と明記
+- `architecture.md`（配置先はプロジェクト依存）— 存在する場合のみ。最新でない場合は「コードを正とする」と明記
 - `specification.md` / `requirements.md` / `design.md` — 同上、必要な場合のみ
 
 ## What This Project Is (and Is Not)
 - <非交渉事項／AIが提案してはいけないこと>
 
 ## Architecture
-<!-- design-docs スキルの architecture.md があればこのセクションは省略し、Key References の参照だけにする。概要は書かない -->
-- <design-docs 未導入の場合のみ、標準と違う点・非自明な点だけを書く>
+<!-- architecture.md があればこのセクションは省略し、Key References の参照だけにする。概要は書かない -->
+- <architecture.md が無い場合のみ、標準と違う点・非自明な点だけを書く>
 
 ## Data Models / Domain Concepts
 - <ドメイン特有の用語・モデル関係のうち、コードから読み取れない・一般的な意味と違うものだけ>
 
 ## Commands
-<!-- テストスキル test-code があれば、それを使う旨を書く -->
+<!-- 品質ゲートを実行するスキルがあれば、それを使う旨を書く -->
 \`\`\`bash
 # Format
 # Tests
