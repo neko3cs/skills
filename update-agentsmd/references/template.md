@@ -8,7 +8,7 @@
 # AGENTS.md
 
 ## Key References
-- `architecture.md`（配置先はプロジェクト依存）— 存在する場合のみ。最新でない場合は「コードを正とする」と明記
+- `architecture.md`（配置先はプロジェクト依存）— 存在する場合のみ。コードと食い違ったら「文書を正とし、コードの不具合として扱う」と明記
 - `specification.md` / `requirements.md` / `design.md` — 同上、必要な場合のみ
 
 ## What This Project Is (and Is Not)

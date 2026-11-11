@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents — requirements.md (why/for whom), specification.md (what to build), architecture.md (how, always-on policy), design.md (how, per-feature detail) — scaffolding them from templates and routing later changes to the right file. Use whenever a project's design docs need writing, setting up, scaffolding, or organizing ("設計ドキュメントを作って", "ドキュメントを整備して", "設計書を用意して") or updating after a change ("design.md を更新して", "ドキュメントを最新化して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the design docs, or to fix docs that drifted from the code.
+description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, "未実装 #N" markers on unimplemented parts — without git or code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs, remove "未実装" markers, or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
 license: MIT
 ---
 
@@ -17,6 +17,19 @@ license: MIT
 
 各ファイルの守備範囲、更新頻度による切り分け、テストの扱い、どの図をどこで使うかの判断は [方針の抜粋](references/policy.md) を読んでください。
 
+## Issue から設計する
+
+Issue 番号を渡されたら、その Issue を設計文書に落とし込みます。Issue は要望を書く場所で、何を作るかの合意と受け入れ基準の正本は設計文書です。
+
+1. `gh issue view <番号> --comments` で本文とコメントを読み、その内容を「変わったもの」として下の判定と手順に進む。設計文書が無いリポジトリでは、新規作成モードで4ファイルを作る。Issue には書かない。
+2. 受け入れ基準は、`requirements.md` の機能要件に、業務の言葉の文章で併記する。
+3. 計算・変換・入力チェックなど、入力から結果が決まる規則は、`specification.md` の「業務ルール」に入力と期待結果の表で書く。表にするのは規則で、テストケースではない（[テストの扱い](references/policy.md#5-テストの扱い)）。
+4. 決まらない箇所は推測で埋めない。表の期待結果は `？`、それ以外は `TBD` のまま残す。
+5. まだコードに無い箇所には、見出し・表の行・箇条書きの末尾に、見える文字で `（未実装 #<番号>）` の印を付ける。表記はこのとおりに固定する（`grep -F "（未実装 #<番号>）"` で、閉じ括弧まで含めて探せるようにするため）。
+6. 書き終えたら、変えた節と、残した `？` / `TBD` の一覧を示し、人に確認を依頼して終える。
+
+設計PRへのレビュー指摘も、更新モードで設計文書を直します。
+
 ## 最初に判定する
 
 対象ディレクトリに4ファイルが存在するか調べ、モードを決めます。
@@ -29,7 +42,7 @@ license: MIT
 
 1. 配置先を確認する。既存の `docs/` があればその配下、無ければリポジトリ直下。判断がつかなければユーザーに聞く。
 2. `assets/templates/` の4ファイルを配置先へコピーする。
-3. リポジトリの内容（README、コード、`AGENTS.md`、Issue、ユーザーの説明）から**確認できた事実だけ**を各節に書く。
+3. リポジトリの内容（README、コード、`AGENTS.md`、Issue、ユーザーの説明）から**確認できた事実だけ**を各節に書く。Issue 番号を渡された場合は、「Issue から設計する」の手順2〜5も当てはめる（既存のコードから書いた箇所には印を付けない）。
 4. 確認できない箇所は `TBD` と1行だけ残す。**推測で埋めない。** 埋められなかった項目はユーザーに提示して聞く。
 5. その案件に無い節（画面が無い、外部連携が無い等）は節ごと削除する。空の見出しを残さない。
 6. Mermaid の空ブロックは、実際に図を描く箇所だけ埋める。埋めない空ブロックは削除する。
@@ -43,19 +56,21 @@ license: MIT
 
 1. 何が変わったかを掴む。ユーザーの説明、`git diff`、Issue、直前の実装内容を材料にする。
 2. 下のルーティング表で**更新すべきファイルだけ**を選ぶ。無関係なファイルは開かない。
-3. 該当ファイルの該当節だけを差分更新する。全文の書き直しはしない。
+3. 該当ファイルの該当節だけを差分更新する。全文の書き直しはしない。Issue 番号を渡された場合は、「Issue から設計する」の手順2〜5も当てはめる。
 4. 変更後、ファイル間の整合を確認する。
    - `specification.md` の機能が `requirements.md` の機能要件に無い → 要件の追加漏れ
    - `design.md` のモジュールが `architecture.md` のレイヤー構成に反する → どちらかが古い
-   - コードと文書が食い違う → **コードを正とし、文書を直す**
-5. 更新した節と、変更しなかったファイルの理由を1行で報告する。
+   - コードと文書が食い違う → **文書を正とし、コードの不具合として報告する**。文書をコードに合わせて直さない（利用者が確認するのは文書のため）。コードの修正は実装の作業で、このスキルでは行わない。報告では、食い違った箇所（文書の節、コードの場所）と文書の記述を一覧にして示し、不具合として Issue にするよう人に勧める（会話だけでは次に読む人に残らないため）。`（未実装 #<番号>）` の印がある箇所は、設計が先行しているだけなので不具合として扱わない
+   - 人が仕様の変更として文書の更新を依頼した場合（「この実装を設計書に反映して」など）は、依頼に従って文書を直す
+5. 実装を終えた箇所の印を外すよう頼まれたら、指定された箇所の印だけを外す。他の箇所の印は残す。
+6. 更新した節と、変更しなかったファイルの理由を1行で報告する。
 
 ### ルーティング表
 
 | 変わったもの | 更新するファイル |
 | :--- | :--- |
 | 目的、想定利用者、要件、スコープ、非機能の目標値、受け入れ基準 | `requirements.md` |
-| 機能、画面、画面遷移、データモデル、外部連携、エラーメッセージ | `specification.md` |
+| 機能、業務ルール、画面、画面遷移、データモデル、外部連携、エラーメッセージ | `specification.md` |
 | 技術選定、ライブラリ、全体構成、レイヤー、依存の向き、共通規約、不変条件、テスト方針 | `architecture.md` |
 | モジュール・クラス構成、処理の流れ、状態遷移、データアクセス、機能ごとのテスト観点 | `design.md` |
 
@@ -74,6 +89,11 @@ license: MIT
 - **サンプル本文の創作** — 確認できないことは `TBD` にしてユーザーに聞きます
 - **コードを読めば分かること** — 関数シグネチャの転記、ディレクトリ一覧
 - **維持できない粒度の記述** — 更新されない設計ドキュメントは「間違った地図」になります
+
+## しないこと
+
+- **Git の書き込み操作（ブランチ、コミット、push）と PR の作成** — 設計文書を書いて人に確認を依頼するところまでです。push は人の依頼で行います
+- **実装** — テストやプロダクトコードは書きません
 
 ## 既存ファイルの扱い
 
