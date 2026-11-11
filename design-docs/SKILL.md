@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents — requirements.md (why/for whom), specification.md (what to build), architecture.md (how, always-on policy), design.md (how, per-feature detail) — scaffolding them from templates and routing later changes to the right file. Use whenever a project's design docs need writing, setting up, scaffolding, or organizing ("設計ドキュメントを作って", "ドキュメントを整備して", "設計書を用意して") or updating after a change ("design.md を更新して", "ドキュメントを最新化して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the design docs, or to fix docs that drifted from the code.
+description: Creates and maintains a project's four design documents — requirements.md (why/for whom), specification.md (what to build), architecture.md (how, always-on policy), design.md (how, per-feature detail) — scaffolding them from templates and routing later changes to the right file. Also designs a GitHub issue by number into the design docs — acceptance criteria, business rules as input/expected-result tables, "？"/"TBD" for undecided points, and "未実装 #N" markers on parts not yet implemented — without touching git or code. Use whenever a project's design docs need writing, setting up, scaffolding, or organizing ("設計ドキュメントを作って", "ドキュメントを整備して", "設計書を用意して"), when an issue is to be designed or its requirements defined ("design issue #4", "define the requirements", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), when review comments on a design PR are to be addressed ("設計PRのレビューを反映して"), or when updating after a change ("design.md を更新して", "ドキュメントを最新化して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the design docs, remove "未実装" markers, or fix docs that drifted from the code.
 license: MIT
 ---
 
@@ -16,6 +16,19 @@ license: MIT
 | `design.md` | どう作るか・詳細（機能ごとに読ませる） | 高い |
 
 各ファイルの守備範囲、更新頻度による切り分け、テストの扱い、どの図をどこで使うかの判断は [方針の抜粋](references/policy.md) を読んでください。
+
+## Issue から設計する
+
+Issue 番号を渡されたら、その Issue を設計文書に落とし込みます。Issue は要望を書く場所で、何を作るかの合意と受け入れ基準の正本は設計文書です。
+
+1. `gh issue view <番号> --comments` で本文とコメントを読み、その内容を「変わったもの」として下の判定と手順に進む。設計文書が無いリポジトリでは、新規作成モードで4ファイルを作る。Issue には書かない。
+2. 受け入れ基準は、`requirements.md` の機能要件に、業務の言葉の文章で併記する。
+3. 計算・変換・入力チェックなど、入力から結果が決まる規則は、`specification.md` の「業務ルール」に入力と期待結果の表で書く。表にするのは規則で、テストケースではない（[テストの扱い](references/policy.md#5-テストの扱い)）。
+4. 決まらない箇所は推測で埋めない。表の期待結果は `？`、それ以外は `TBD` のまま残す。
+5. まだコードに無い箇所には、見出し・表の行・箇条書きの末尾に、見える文字で `（未実装 #<番号>）` の印を付ける。表記はこのとおりに固定する（`grep "未実装 #<番号>"` で探せるようにするため）。
+6. 書き終えたら、変えた節と、残した `？` / `TBD` の一覧を示し、人に確認を依頼して終える。
+
+設計PRへのレビュー指摘も、更新モードで設計文書を直します。
 
 ## 最初に判定する
 
@@ -47,15 +60,16 @@ license: MIT
 4. 変更後、ファイル間の整合を確認する。
    - `specification.md` の機能が `requirements.md` の機能要件に無い → 要件の追加漏れ
    - `design.md` のモジュールが `architecture.md` のレイヤー構成に反する → どちらかが古い
-   - コードと文書が食い違う → **コードを正とし、文書を直す**
-5. 更新した節と、変更しなかったファイルの理由を1行で報告する。
+   - コードと文書が食い違う → **コードを正とし、文書を直す**。ただし `（未実装 #<番号>）` の印がある箇所は、設計が先行しているだけなので直さない
+5. 実装を終えた箇所の印を外すよう頼まれたら、指定された箇所の印だけを外す。他の箇所の印は残す。
+6. 更新した節と、変更しなかったファイルの理由を1行で報告する。
 
 ### ルーティング表
 
 | 変わったもの | 更新するファイル |
 | :--- | :--- |
 | 目的、想定利用者、要件、スコープ、非機能の目標値、受け入れ基準 | `requirements.md` |
-| 機能、画面、画面遷移、データモデル、外部連携、エラーメッセージ | `specification.md` |
+| 機能、業務ルール、画面、画面遷移、データモデル、外部連携、エラーメッセージ | `specification.md` |
 | 技術選定、ライブラリ、全体構成、レイヤー、依存の向き、共通規約、不変条件、テスト方針 | `architecture.md` |
 | モジュール・クラス構成、処理の流れ、状態遷移、データアクセス、機能ごとのテスト観点 | `design.md` |
 
@@ -74,6 +88,11 @@ license: MIT
 - **サンプル本文の創作** — 確認できないことは `TBD` にしてユーザーに聞きます
 - **コードを読めば分かること** — 関数シグネチャの転記、ディレクトリ一覧
 - **維持できない粒度の記述** — 更新されない設計ドキュメントは「間違った地図」になります
+
+## しないこと
+
+- **Git の書き込み操作（ブランチ、コミット、push）と PR の作成** — 設計文書を書いて人に確認を依頼するところまでです。push は人の依頼で行います
+- **実装** — テストやプロダクトコードは書きません
 
 ## 既存ファイルの扱い
 
