@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, "未実装 #N" markers on unimplemented parts — without git or code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs, remove "未実装" markers, or fix docs that drifted from the code.
+description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, "未実装 #N" markers on unimplemented parts — without git or code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs, remove "未実装" markers, or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
 license: MIT
 ---
 
@@ -60,7 +60,8 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 4. 変更後、ファイル間の整合を確認する。
    - `specification.md` の機能が `requirements.md` の機能要件に無い → 要件の追加漏れ
    - `design.md` のモジュールが `architecture.md` のレイヤー構成に反する → どちらかが古い
-   - コードと文書が食い違う → **コードを正とし、文書を直す**。ただし `（未実装 #<番号>）` の印がある箇所は、設計が先行しているだけなので直さない
+   - コードと文書が食い違う → **文書を正とし、コードの不具合として報告する**。文書をコードに合わせて直さない（利用者が確認するのは文書のため）。コードの修正は実装の作業で、このスキルでは行わない。`（未実装 #<番号>）` の印がある箇所は、設計が先行しているだけなので不具合として扱わない
+   - 人が仕様の変更として文書の更新を依頼した場合（「この実装を設計書に反映して」など）は、依頼に従って文書を直す
 5. 実装を終えた箇所の印を外すよう頼まれたら、指定された箇所の印だけを外す。他の箇所の印は残す。
 6. 更新した節と、変更しなかったファイルの理由を1行で報告する。
 
