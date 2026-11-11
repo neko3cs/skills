@@ -1,6 +1,6 @@
 ---
 name: create-issue
-description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use whenever a GitHub Issue (bug report or feature request) is being filed in a neko3cs org repository — when the user asks ("create an issue", "file a bug", "Issueを作って", "バグ報告を起票して", "機能要望をIssueにして"), or when a workflow step says to file one. Also use when recording requirements context on an existing Issue as a comment — background, investigation results, or decisions from discussing its requirements ("add a comment to the issue", "Issueにコメントして", "調査結果をIssueに残して", "要件の議論をIssueに残して").
+description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format; filing the Issue is where requirements get defined, including testable acceptance criteria. Use whenever a GitHub Issue (bug report or feature request) is being filed in a neko3cs org repository, or its requirements are being defined — when the user asks ("create an issue", "file a bug", "define the requirements", "Issueを作って", "バグ報告を起票して", "機能要望をIssueにして", "要件定義して", "要件をIssueにまとめて"), or when a workflow step says to file one or to update an Issue's requirements. Also use when recording requirements context on an existing Issue as a comment — background, investigation results, or decisions from discussing its requirements ("add a comment to the issue", "Issueにコメントして", "調査結果をIssueに残して", "要件の議論をIssueに残して").
 license: MIT
 ---
 
@@ -12,7 +12,7 @@ GitHub Issueを作成する際は、必ず `gh` コマンドを使い、`neko3cs
 
 ## Issue に残すもの
 
-Issue の作成は要件定義です。要件を検討する途中で分かったことは、後で設計や実装をする人が会話を持たずに読めるよう、Issue に書き残します。
+Issue の作成は、その Issue 単位の要件定義です。受け入れ条件は、後の設計と実装の正本になります。システム全体の要件への組み込みは、設計の段階で行うもので、このスキルの範囲外です。要件を検討する途中で分かったことは、後で設計や実装をする人が会話を持たずに読めるよう、Issue に書き残します。
 
 | 残す先 | 残すもの |
 | :--- | :--- |
