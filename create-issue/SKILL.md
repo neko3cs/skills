@@ -1,6 +1,6 @@
 ---
 name: create-issue
-description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use whenever a GitHub Issue (bug report or feature request) is being filed in a neko3cs org repository — when the user asks ("create an issue", "file a bug", "Issueを作って", "バグ報告を起票して", "機能要望をIssueにして"), or when a workflow step says to file one.
+description: Creates a GitHub Issue with the gh CLI using neko3cs/.github's org-wide ISSUE_TEMPLATE forms (bug_report.yml / feature_request.yml), filling every required field and composing the body in GitHub's rendered heading format. Use whenever a GitHub Issue (bug report or feature request) is being filed in a neko3cs org repository — when the user asks ("create an issue", "file a bug", "Issueを作って", "バグ報告を起票して", "機能要望をIssueにして"), or when a workflow step says to file one. Also use when recording requirements context on an existing Issue as a comment — background, investigation results, or decisions from discussing its requirements ("add a comment to the issue", "Issueにコメントして", "調査結果をIssueに残して", "要件の議論をIssueに残して").
 license: MIT
 ---
 
@@ -9,6 +9,18 @@ license: MIT
 ## 概要
 
 GitHub Issueを作成する際は、必ず `gh` コマンドを使い、`neko3cs/.github` リポジトリで管理されている2つのIssueテンプレート（バグ報告 / 機能要望）のいずれかに従って作成します。`blank_issues_enabled: false` のため、テンプレートを使わない空のIssueは作成しません。
+
+## Issue に残すもの
+
+Issue の作成は要件定義です。要件を検討する途中で分かったことは、後で設計や実装をする人が会話を持たずに読めるよう、Issue に書き残します。
+
+| 残す先 | 残すもの |
+| :--- | :--- |
+| Issue 本文 | 合意の対象（説明、動機、受け入れ条件、対応スコープ外など）。テンプレートのフィールドに書く |
+| Issue コメント | 要件を検討する途中で生じた考え・暗黙知・調査結果のうち、本文に入れると長すぎるものや経緯（既存コードの挙動、外部仕様、選ばなかった案とその理由など） |
+
+- 本文には合意の対象だけを置き、長い調査結果や経緯はコメントに分ける。
+- 残すのは、次に読む人が会話を持たずに困るものに限る。作業の実況や、コードを読めば分かることは書かない。
 
 ## 実行手順
 
@@ -75,6 +87,21 @@ gh issue create -R <owner>/<repo> \
 - 本文は改行・見出しを含むため、シェルのクォート崩れを避けるためスクラッチディレクトリに一時ファイルを作成し `--body-file` で渡す。作成後は一時ファイルを削除する。
 - 必須項目が会話やコードから判断できずユーザーへの質問が必要な場合を除き、内容が揃い次第このステップまで確認なしで進めて作成する。作成後にIssue URLを提示する。
 
+### 6. 本文に入れなかったことを Issue コメントに書く
+
+起票までの会話で分かった調査結果や経緯のうち、本文に入れなかったもの（「Issue に残すもの」）があれば、作成した Issue にコメントとして書く。無ければ書かない。
+
+```bash
+gh issue comment <番号> -R <owner>/<repo> --body-file <一時ファイル>
+```
+
+## 起票後に要件を補う
+
+起票した後の要件の議論で、考え・暗黙知・調査結果が生じたら、その Issue にコメントとして書く（手順6と同じ方法）。
+
+- 議論の結果、合意の対象（受け入れ条件、対応スコープ外など）が変わる場合は、本文も更新する（`gh issue edit <番号> --body-file <一時ファイル>`）。本文はテンプレートの見出し形式を保つ。
+- 本文を更新したら、何をなぜ変えたかをコメントにも書く。本文には変更の経緯が残らないため。
+
 ## 注意事項
 
 - `blank_issues_enabled: false` のため、テンプレートを使わない空のIssueは作成しない。
@@ -100,3 +127,7 @@ gh issue create -R <owner>/<repo> \
 **User:** （動機とユースケースを回答）
 
 **Agent:** [`gh issue create` を実行] Issueを作成しました。URL: ...
+
+**User:** さっき調べた既存APIの制約もIssueに残しておいて。
+
+**Agent:** 受け入れ条件は変わらないので、本文はそのままにし、調べた制約をIssueにコメントとして書きました。URL: ...
