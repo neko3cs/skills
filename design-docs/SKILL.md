@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file and committing, pushing, and opening or updating a PR without per-operation approval. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, self-contained specifications without issue or PR references — without writing code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
+description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file and committing, pushing, and opening or updating a PR without per-operation approval. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, self-contained specifications independent of issues, PRs, and code — without writing code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
 license: MIT
 ---
 
@@ -25,7 +25,7 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 2. 受け入れ基準は、`requirements.md` の機能要件に、業務の言葉の文章で併記する。
 3. 計算・変換・入力チェックなど、入力から結果が決まる規則は、`specification.md` の「業務ルール」に入力と期待結果の表で書く。表にするのは規則で、テストケースではない（[テストの扱い](references/policy.md#5-テストの扱い)）。
 4. 決まらない箇所は推測で埋めない。表の期待結果は `？`、それ以外は `TBD` のまま残す。
-5. 設計文書は単独で仕様を理解できるように書く。Issue・PRの番号やリンク、実装状況のマーカーは書かず、要望の内容・判断の理由・受け入れ基準を本文に記載する。Issueとの対応や実装の進捗は PR本文に残す。
+5. 設計文書は Issue・PR・コードから独立して仕様を理解できるように、要望の内容・判断の理由・受け入れ基準を本文に記載する。未実装でこれから実装が必要であることを示すメモは残さない。作業範囲や進捗は PR本文に残す。
 6. 書き終えたら、変えた節と、残した `？` / `TBD` の一覧を PR本文に記載し、「PRで確認する」に進む。会話で確認を求めて止まらない。
 
 設計PRへのレビュー指摘も、更新モードで設計文書を直します。
@@ -58,8 +58,7 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
    - `design.md` のモジュールが `architecture.md` のレイヤー構成に反する → どちらかが古い
    - コードと文書が食い違う → **文書を正とし、コードの不具合として報告する**。文書をコードに合わせて直さない（利用者が確認するのは文書のため）。コードの修正は実装の作業で、このスキルでは行わない。報告では、食い違った箇所（文書の節、コードの場所）と文書の記述を一覧にして示し、不具合として Issue にするよう人に勧める（会話だけでは次に読む人に残らないため）。ただし、Issue・設計PRの差分から設計が先行していると確認できる箇所は、不具合として扱わない
    - 人が仕様の変更として文書の更新を依頼した場合（「この実装を設計書に反映して」など）は、依頼に従って文書を直す
-5. 更新対象の節に既存のIssue・PR参照や実装状況のマーカーがあれば、仕様を理解するのに必要な内容を本文に記載して参照・マーカーを除く。文書全体の整理を依頼されていなければ、無関係な節は変更しない。
-6. 更新した節と、変更しなかったファイルの理由を PR本文に記載し、「PRで確認する」に進む。
+5. 更新した節と、変更しなかったファイルの理由を PR本文に記載し、「PRで確認する」に進む。
 
 ### ルーティング表
 
@@ -95,7 +94,7 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 設計文書の作成・更新の依頼には、作業ブランチの作成、対象変更のコミット、push、PR作成・本文更新までを含みます。操作ごとの許可や、設計内容の事前承認を会話で求めず、レビューできる PRにして URLを提示します。マージはユーザーの判断とします。
 
 - 既存の作業ブランチや PRがあれば再利用し、今回の対象変更だけをコミットする。実装など別の作業の一部として呼ばれた場合は、その作業のブランチ・PRに含め、別PRや途中のコミット・pushを作らず、呼び出した作業の完了手順に戻る。
-- PRの起票方法と本文は、対象リポジトリの規約・指定された PRテンプレートに従う。特定の組織やテンプレートの取得先を前提にしない。
+- PRの起票方法と本文は、対象リポジトリの規約・指定された PRテンプレートに従う。
 - 未決事項、変更案、文書とコードの食い違い、未確認の内容を PR本文に残す。判断待ちがあっても PR作成前に止まらず、必要なら Draft にする。
 - 設計だけで Issue は完了しないため、関連Issueは `Closes #<番号>` ではなく `Refs #<番号>` とする。Issueが指定されていなければ、その確認だけを理由に止まらず、番号なしで PRを作る。
 
