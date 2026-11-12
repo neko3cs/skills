@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file and committing, pushing, and opening or updating a PR without per-operation approval. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "？"/"TBD" for undecided points, self-contained specifications independent of issues, PRs, and code — without writing code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
+description: Creates and maintains a project's four design documents (requirements.md, specification.md, architecture.md, design.md) from templates, routing changes to the right file and committing, pushing, and opening or updating a PR without per-operation approval. Also designs a GitHub issue by number into them — acceptance criteria, business-rule tables, "TBD" for uncertainties to resolve through PR review, self-contained specifications independent of issues, PRs, and code — without writing code. Use whenever design docs need writing or organizing ("設計ドキュメントを作って", "ドキュメントを整備して"), an issue is to be designed or its requirements defined ("design issue #4", "#4を設計して", "#4の要件定義をして", "要件定義して", "要件をまとめて"), design PR review comments are to be addressed ("設計PRのレビューを反映して"), or docs need updating after a change ("design.md を更新して", "仕様変更をドキュメントに反映して", "この実装を設計書に反映して") — whether the user asks or a workflow step says to update the docs or check docs against the code (docs are the source of truth; a mismatch is reported as a code defect, not fixed in the docs).
 license: MIT
 ---
 
@@ -17,6 +17,8 @@ license: MIT
 
 各ファイルの守備範囲、更新頻度による切り分け、テストの扱い、どの図をどこで使うかの判断は [方針の抜粋](references/policy.md) を読んでください。
 
+Issue 作成時に決定済みの内容を引き継ぎます。設計中に新たな不確定事項が見つかった場合は、推測で決めず、該当箇所を `TBD` として残します。PR本文に該当する節と確認したい内容をまとめ、PR作成まで進めてユーザーにレビューで確認します。レビューで決まった内容は設計文書に反映します。
+
 ## Issue から設計する
 
 Issue 番号を渡されたら、その Issue を設計文書に落とし込みます。Issue は要望を書く場所で、何を作るかの合意と受け入れ基準の正本は設計文書です。
@@ -24,9 +26,9 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 1. `gh issue view <番号> --comments` で本文とコメントを読み、その内容を「変わったもの」として下の判定と手順に進む。設計文書が無いリポジトリでは、新規作成モードで4ファイルを作る。Issue には書かない。
 2. 受け入れ基準は、`requirements.md` の機能要件に、業務の言葉の文章で併記する。
 3. 計算・変換・入力チェックなど、入力から結果が決まる規則は、`specification.md` の「業務ルール」に入力と期待結果の表で書く。表にするのは規則で、テストケースではない（[テストの扱い](references/policy.md#5-テストの扱い)）。
-4. 決まらない箇所は推測で埋めない。表の期待結果は `？`、それ以外は `TBD` のまま残す。
+4. 決まらない箇所は推測で埋めず、表の期待結果も含めて `TBD` のまま残す。
 5. 設計文書は Issue・PR・コードから独立して仕様を理解できるように、要望の内容・判断の理由・受け入れ基準を本文に記載する。未実装でこれから実装が必要であることを示すメモは残さない。作業範囲や進捗は PR本文に残す。
-6. 書き終えたら、変えた節と、残した `？` / `TBD` の一覧を PR本文に記載し、「PRで確認する」に進む。会話で確認を求めて止まらない。
+6. 書き終えたら、変えた節と、残した `TBD` の箇所・確認したい内容を PR本文に記載し、「PRで確認する」に進む。会話で確認を求めて止まらない。
 
 設計PRへのレビュー指摘も、更新モードで設計文書を直します。
 
