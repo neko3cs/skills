@@ -1,6 +1,6 @@
 ---
 name: implement-design
-description: Implements a GitHub issue from the project's design documents (requirements.md / specification.md / architecture.md / design.md) on an implementation pull request — scoping the work from the "未実装 #N" markers and the merged design PR, implementing with TDD, passing the quality gate, removing the markers, marking the PR ready for review, and handling review comments on that implementation PR. Stops without designing when the design docs are missing, do not cover the issue, or still contain "？" or "TBD" in scope. Use when asked to implement, resolve, or fix a specific GitHub issue by number ("/implement-design 4", "implement issue #4", "resolve issue #4", "#4を実装して", "#4を解決して", "#4を直して"), or to address review comments on an implementation PR ("実装PRのレビューを反映して", "PR #5 のレビューに対応して").
+description: Implements a GitHub issue from the project's design documents (requirements.md / specification.md / architecture.md / design.md) on an implementation pull request — scoping the work from the "未実装 #N" markers and the merged design PR, implementing with TDD, passing the quality gate, removing the markers, marking the PR ready for review, and handling review comments on that implementation PR. Commits, pushes, and opens or updates the PR without per-operation approval; missing or undecided design is recorded on a draft PR without inventing requirements. Use when asked to implement, resolve, or fix a specific GitHub issue by number ("/implement-design 4", "implement issue #4", "resolve issue #4", "#4を実装して", "#4を解決して", "#4を直して"), or to address review comments on an implementation PR ("実装PRのレビューを反映して", "PR #5 のレビューに対応して").
 license: MIT
 ---
 
@@ -11,7 +11,7 @@ license: MIT
 設計文書に書かれたことを、Issue 1つにつき1つの実装PRで実装します。何を作るかは設計文書から読み、Issue は作業範囲と `Closes #<番号>` の紐付けに使います。
 
 - **正本は設計文書です。** 受け入れ基準は `requirements.md`、入力から結果が決まる規則は `specification.md` の業務ルールにあります。テストはその写しです。
-- **設計はこのスキルの範囲外です。** 設計文書が足りなければ、推測で埋めず、自分で設計もせずに止まります。設計は設計PRとしてマージ済みであることが前提です。
+- **設計はこのスキルの範囲外です。** 設計は設計PRとしてマージ済みであることが前提です。不足や未決事項に依存する実装は行わず、独立して進められる範囲を実装し、不足は Draft PRで確認します。PR作成前に会話で判断待ちにしません。
 - 正しい動作がすでに設計文書に書かれているバグ修正などは、設計PRを経ずにこのスキルから始められます。
 
 ## 使い方
@@ -26,12 +26,12 @@ license: MIT
 2. 同じ Issue の実装PRを探す（`gh pr list --head <ブランチ名>`、見つからなければ `gh pr list --search "#<番号>"`）。差分が設計文書だけのPRは設計PRなので、実装PRとして扱わない。
    - Ready for review の実装PRがある → 「Ready for review の後: 指摘に対応する」に進む。
    - Draft の実装PRがある → そのブランチに切り替え、手順5の確認をしてから「実装する」の続きを進める（ブランチもPRも作り直さない）。作業範囲は、PR本文と、そのブランチに残っている印から読む。
-3. 依頼されたPRの差分が設計文書だけなら、設計PRのレビュー対応なので、設計文書の更新で直すよう伝えて止まる（このスキルは設計しない）。
+3. 依頼されたPRの差分が設計文書だけなら、`design-docs` でそのPRのレビュー対応を行う。実装PRは新しく作らない。
 4. 既定ブランチを最新にし、作業範囲を決める。
    - `grep -rnF "（未実装 #<番号>）"` で印の付いた箇所を探す。閉じ括弧まで含める（`#2` で `#20` を拾わないため）。
    - `gh pr list --state merged --search "#<番号>"` で設計PRを探し、あればその差分も作業範囲に含める。
    - どちらも無ければ（バグ修正など）、Issue の内容が書かれている設計文書の箇所を作業範囲にする。
-5. 次のどれかに当たれば、不足を具体的に伝えて止まる。実装は始めない。
+5. 次のどれかに当たれば、不足箇所と影響を PR本文の確認事項に記録する。その判断に依存する実装は保留し、独立して進められる範囲を進めて「判断待ちがある場合」に従う。
    - 設計文書が無い。
    - Issue の内容が設計文書に書かれていない。設計PRが未マージで見つかったら、そう伝える。
    - 作業範囲に `？`（業務ルールの表で期待結果が決まっていない行）や `TBD` が残っている。
@@ -57,7 +57,7 @@ license: MIT
 3. `test-as-tdd` に従い、テストとプロダクトコードを交互に書く。
    - テストの種類（単体、UI、E2E）と書き方は、プロジェクトの既存のテストに合わせる。
    - 業務ルールの表の行は、テストのデータとしてそのまま写す。テスト名か説明に、設計文書の該当箇所が分かる言葉を含め、人が表と見比べられるようにする。
-4. **設計文書の受け入れ基準や業務ルールを自分の判断で変えない。** 間違っていると判断したら、理由と修正案を PR コメントで問い、人の判断を待つ。判断が出たら、同じ実装PRの中で `design-docs` を使って直す。
+4. **設計文書の受け入れ基準や業務ルールを自分の判断で変えない。** 間違っていると判断したら、理由と修正案を PR本文の確認事項に記録する。その判断に依存する変更は保留し、独立して進められる範囲を進めて「判断待ちがある場合」に従う。PR上で判断が出たら、同じ実装PRの中で `design-docs` を使って直す。
 5. 設計文書とコードを突き合わせる。
    - 作業範囲の中で食い違いがあれば、文書を正としてコードを直す。食い違いはコードの不具合とみなす（利用者が確認するのは文書で、コードはあまり読まないため）。文書をコードに合わせて書き換えない。文書のほうが間違っていると判断したら、手順4に従って人に問う。
    - 作業範囲の外で見つけた食い違いは、直さずに PR コメントで知らせる（別の不具合として扱うため）。
@@ -65,8 +65,16 @@ license: MIT
    - 実装した箇所の `未実装 #<番号>` の印を外す。実装していない箇所の印は残す。
    - 実装の途中で分かった考え・暗黙知・調査結果のうち、設計文書に残すべきもの（判断の理由、制約など）を反映する。残すべきでないものは PR コメントに書く。
 7. `test-code` で品質ゲートを通す。手順2で記録した元々の失敗は無視してよいが、新たに失敗するようになったテストは直す。
-8. コミットして push し、`create-pullrequest` で実装PRを作る（または本文を更新する）。本文には `Closes #<番号>`、動作確認、受け入れ基準ごとの対応するテストを書く。Ready にする前なら Draft で作り、コミットのたびに push してよい。
+8. コミットして push し、`create-pullrequest` で実装PRを作る（または本文を更新する）。本文には動作確認、受け入れ基準ごとの対応するテストを書く。Issueを完了するPRは `Closes #<番号>`、判断待ちなどで未完了なら `Refs #<番号>` とする。Ready にする前なら Draft で作り、コミットのたびに push してよい。
 9. Ready にする前に、push するものをすべて片付ける。品質ゲート、PR本文、自動チェック（セキュリティレビューなど）の指摘への対応まで終えて push してから、`gh pr ready <PR番号>` で Ready for review にする。Ready の後の push は CI のやり直しになるため（次節）。マージはユーザーの判断で、このスキルの範囲はここまで。
+
+### 判断待ちがある場合
+
+ユーザーへの確認は PR上で行います。判断待ちを理由に、コミット・push・PR作成の前で作業を終えません。
+
+- 未決事項に依存しない変更と検証を先に完了し、保留した実装、必要な判断、品質ゲートの未完了項目を PR本文に記載して Draft PRを作成・更新する。判断待ちが残るPRは Ready にしない。すでに Ready のPRなら Draft に戻す。
+- 実装できる箇所が一つもなく、PRがまだ無い場合は、不足している設計文書の箇所・確認できた事実・必要な判断を既存の設計文書に追記する。文書自体が無ければ `design-docs` で作成する。未決事項は `？` / `TBD` のまま残し、その差分で Draft PRを作る。空コミットだけでPRを作らない。設計文書だけのPRは設計PRとして扱い、そのレビュー後の実装は「最初に確かめる」から再開する。
+- PR URLと確認事項を提示して、ユーザーが PR上でレビューできる状態で終了する。判断待ちの箇所を推測で実装したり、完了したと報告したりしない。
 
 ## Ready for review の後: 指摘に対応する
 
@@ -82,17 +90,17 @@ Ready の PR への push は、**ひとまとまりの対応ごとに1回** に�
 まれに次の状況になる。
 
 - **直している途中で新しい指摘が届いた**: 新しい指摘も含めてすべて直し、品質ゲートを通してから1回 push する。
-- **指摘の一部が人の判断待ち**: 直した分を先に1回 push し、判断待ちの指摘は PRコメントで問う。判断が出て直したら、もう一度 push する。
+- **指摘の一部が人の判断待ち**: 直した分を先に1回 push し、「判断待ちがある場合」に従って Draft に戻し、確認事項を PR本文と該当のレビュースレッドに残す。判断が出て直したら、もう一度 push する。
 
 ## コミット
 
 作業ブランチ上では、コミット・push・PR作成・PR本文更新・PR へのコメント・Ready for review への変更まで、操作ごとの許可をユーザーに求めずに進める。マージはユーザーの判断とする。
 
-コミットメッセージに Issue 番号を含める（`Refs #<番号>`）。PR本文に `Closes #<番号>` を書く。
+コミットメッセージに Issue 番号を含める（`Refs #<番号>`）。PR本文には、Issueを完了する場合だけ `Closes #<番号>`、未完了なら `Refs #<番号>` を書く。
 
 ## 出力形式
 
-終わりに、PRのURLと、UATで参考にする受け入れ基準（設計文書の該当箇所）を示す。止まった場合は、足りないもの（設計文書のどこに何が無いか、どの `？` / `TBD` が残っているか）を示す。
+終わりに、PRのURLと、UATで参考にする受け入れ基準（設計文書の該当箇所）を示す。判断待ちがあれば、Draft PRのURLと、足りないもの（設計文書のどこに何が無いか、どの `？` / `TBD` が残っているか）を示す。
 
 ## 他のスキルとの関係
 
@@ -107,7 +115,7 @@ Ready の PR への push は、**ひとまとまりの対応ごとに1回** に�
 
 **User:** /implement-design 44
 
-**Agent:** Issue #44 を確認しました。設計PR #45 はマージ済みで、`specification.md` の業務ルール「馬番の取り込み」に `（未実装 #44）` の印があります。ただ、表の「JSONに無い馬番」の行の期待結果が `？` のままなので、実装を始めずに止まります。設計文書でこの行を決めてから、もう一度呼んでください。
+**Agent:** Issue #44 のうち、確定している範囲を実装・検証し、Draft PRを作成しました。表の「JSONに無い馬番」の行は期待結果が `？` のため実装を保留し、PR本文に確認事項を記載しています。URL: ...
 
 **User:** （設計PRで `？` を「既存のまま残す」に直してマージしてから）/implement-design 44
 
