@@ -1,6 +1,6 @@
 ---
 name: implement-design
-description: Implements a GitHub issue from the project's design documents (requirements.md / specification.md / architecture.md / design.md) on an implementation pull request — scoping the work from the issue and merged design PR changes matched against the design documents, implementing with TDD, passing the quality gate, marking the PR ready for review, and handling review comments on that implementation PR. Commits, pushes, and opens or updates the PR without per-operation approval; missing or undecided design is recorded on a draft PR without inventing requirements. Use when asked to implement, resolve, or fix a specific GitHub issue by number ("/implement-design 4", "implement issue #4", "resolve issue #4", "#4を実装して", "#4を解決して", "#4を直して"), or to address review comments on an implementation PR ("実装PRのレビューを反映して", "PR #5 のレビューに対応して").
+description: Implement a GitHub issue from requirements.md, specification.md, and architecture.md on one implementation PR. Scope work by matching the issue and merged design PR changes to the design docs, implement with TDD, pass the quality gate, mark ready for review, and address implementation PR reviews. Commit, push, and create or update the PR without per-operation approval. Record missing or undecided design on a draft PR without inventing requirements. Use for "/implement-design 4", "implement issue #4", "resolve issue #4", "fix issue #4", "#4を実装して", "#4を解決して", "#4を直して", "実装PRのレビューを反映して", or "PR #5 のレビューに対応して".
 license: MIT
 ---
 
