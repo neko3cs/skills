@@ -8,15 +8,14 @@
 # AGENTS.md
 
 ## Key References
-- `architecture.md`（配置先はプロジェクト依存）— 存在する場合のみ。コードと食い違ったら「文書を正とし、コードの不具合として扱う」と明記
-- `specification.md` / `requirements.md` / `design.md` — 同上、必要な場合のみ
+- <既存の設計ドキュメントの実際のパス> — <文書の役割・読む場面>。必要な文書ごとに1行で参照し、コードと食い違ったら「文書を正とし、コードの不具合として扱う」と明記
 
 ## What This Project Is (and Is Not)
 - <非交渉事項／AIが提案してはいけないこと>
 
 ## Architecture
-<!-- architecture.md があればこのセクションは省略し、Key References の参照だけにする。概要は書かない -->
-- <architecture.md が無い場合のみ、標準と違う点・非自明な点だけを書く>
+<!-- 構成や設計方針を説明する既存文書があればこのセクションは省略し、Key References の参照だけにする。概要は書かない -->
+- <該当する設計文書が無い場合のみ、標準と違う点・非自明な点だけを書く>
 
 ## Data Models / Domain Concepts
 - <ドメイン特有の用語・モデル関係のうち、コードから読み取れない・一般的な意味と違うものだけ>
