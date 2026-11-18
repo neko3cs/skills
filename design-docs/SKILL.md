@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Create and maintain three design documents (requirements.md, specification.md, architecture.md), including designing a GitHub issue into acceptance criteria and business rules. Use for "write design docs", "design issue #4", "update the specification", "設計ドキュメントを作って", "ドキュメントを整備して", "#4を設計して", "要件定義して", "要件をまとめて", "設計PRのレビューを反映して", "仕様変更をドキュメントに反映して", or "この実装を設計書に反映して", including workflow requests to update docs or compare them with code. Keep docs self-contained and authoritative; report mismatches as code defects unless a specification change is requested. Record uncertainty as TBD for PR review. Commit, push, and create or update a PR without per-operation approval. Do not implement code.
+description: Create and maintain three design documents (requirements.md, specification.md, architecture.md), including designing a GitHub issue into acceptance criteria and business rules. Use for "write design docs", "design issue #4", "update the specification", "設計ドキュメントを作って", "ドキュメントを整備して", "#4を設計して", "要件定義して", "要件をまとめて", "設計PRのレビューを反映して", "仕様変更をドキュメントに反映して", or "この実装を設計書に反映して", including workflow requests to update docs or compare them with code. Keep docs self-contained and authoritative; report mismatches as code defects unless a specification change is requested. Propose explicit assumptions for undecided design and ask concrete questions in PR comments. Commit, push, and create or update a PR without per-operation approval. Do not implement code.
 license: MIT
 ---
 
@@ -16,7 +16,7 @@ license: MIT
 
 各ファイルの記載基準、情報の性質による切り分け、テストと図の扱いは [方針の抜粋](references/policy.md) を読んでください。各節に書くこと・書かないこと・確認する問いは [テンプレート](assets/templates/) にあります。
 
-Issue 作成時に決定済みの内容を引き継ぎます。設計中に新たな不確定事項が見つかった場合は、推測で決めず、該当箇所を `TBD` として残します。PR本文に該当する節と確認したい内容をまとめ、PR作成まで進めてユーザーにレビューで確認します。レビューで決まった内容は設計文書に反映します。
+Issue 作成時に決定済みの内容を引き継ぎ、仮定は仮定のまま扱います。未決の設計は、会話・既存仕様・コード・一般的な利用例から妥当な案を選び、`仮定（未承認）: <具体的な内容>` と理由を該当箇所に記載します。表の期待結果も具体化し、`TBD` だけで止めません。確認できない実測値や過去の決定理由などの事実は創作せず、未確認の内容と不足情報を明記します。仮案はPR本文に要約し、別途PRコメントで具体的に質問します。回答で決まった内容を文書に反映します。
 
 ## Issue から設計する
 
@@ -25,9 +25,9 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 1. `gh issue view <番号> --comments` で本文とコメントを読み、その内容を「変わったもの」として下の判定と手順に進む。設計文書が無いリポジトリでは、新規作成モードで3ファイルを作る。Issue には書かない。
 2. 受け入れ基準は、`requirements.md` の「機能要件と受け入れ基準」に、業務の言葉の文章で併記する。
 3. 計算・変換・入力チェックなど、入力から結果が決まる規則は、`specification.md` の「業務ルール」に入力と期待結果の表で書く。表にするのは規則で、テストケースではない（[テストの扱い](references/policy.md#5-テストの扱い)）。
-4. 決まらない箇所は推測で埋めず、表の期待結果も含めて `TBD` のまま残す。
+4. 未決の箇所は仮案を選び、表の期待結果も含めて動作を具体化する。既存の合意済み仕様と仮案を区別し、仮案の理由を残す。
 5. 設計文書は Issue・PR・コードから独立して仕様を理解できるように、要望の内容・判断の理由・受け入れ基準を本文に記載する。未実装でこれから実装が必要であることを示すメモは残さない。作業範囲や進捗は PR本文に残す。
-6. 書き終えたら、変えた節と、残した `TBD` の箇所・確認したい内容を PR本文に記載し、「PRで確認する」に進む。会話で確認を求めて止まらない。
+6. 書き終えたら、変えた節と仮案・未確認事項を PR本文に要約し、「PRで確認する」に進む。会話で確認を求めて止まらない。
 
 設計PRへのレビュー指摘も、更新モードで設計文書を直します。
 
@@ -43,8 +43,8 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 
 1. 配置先を確認する。既存の配置規約を優先し、指定がなければ既存の `docs/` 配下、無ければリポジトリ直下に置く。判断の理由は PR本文に記載する。
 2. `assets/templates/` の3ファイルを配置先へコピーする。
-3. リポジトリの内容（README、コード、`AGENTS.md`、Issue、ユーザーの説明）から**確認できた事実だけ**を各節に書く。Issue 番号を渡された場合は、「Issue から設計する」の手順2〜5も当てはめる。
-4. 確認できない箇所は `TBD` と1行だけ残す。**推測で埋めない。** 埋められなかった項目は PR本文の確認事項にまとめる。
+3. リポジトリの内容（README、コード、`AGENTS.md`、Issue、ユーザーの説明）から確認できた事実と、未決の設計に対する仮案を区別して各節に書く。Issue 番号を渡された場合は、「Issue から設計する」の手順2〜5も当てはめる。
+4. 仮案には具体的な期待動作・理由を記載し、実装に移れる設計にする。仮案と未確認事項は PR本文に要約し、質問は PRコメントに分ける。
 5. その案件に無い節は省略する。外部通信がなくてもファイル入出力は「入出力・外部連携仕様」に書く。対象が無いこと自体が制約なら、その理由を関係する節に残し、記載漏れと区別する。空の見出しを残さない。
 6. Mermaid の空ブロックは、実際に図を描く箇所だけ埋める。埋めない空ブロックは削除する。
 7. `AGENTS.md` に `architecture.md` への参照が無ければ、実際の配置先への参照追加を PR本文で提案する。今回の設計文書作成に付随して `AGENTS.md` は変更せず、「PRで確認する」に進む。
@@ -82,7 +82,7 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 
 - **テストケース・テスト手順** — テストコードを正とします。期待動作は仕様、検証方針・重点リスク・検証限界はアーキテクチャに残し、テストへの反映を未確認のまま削除しません
 - **`tasks.md` / 実装タスク一覧** — このスキルの範囲外です。着手中の作業は GitHub Issue で管理します
-- **サンプル本文の創作** — 確認できないことは `TBD` にして PR本文の確認事項に記載します
+- **事実・合意・過去の経緯の創作** — 新たな設計案は仮定として提案できますが、確認できない事実や承認を確定済みと扱いません
 - **現在の実装構造の写し** — 関数シグネチャや内部処理の転記は保守しません。必要時に AI が現在のコードを読み、Markdown や HTML などで図示・説明します。守るべき責務・制約と、その理由は設計文書に残します
 - **維持できない粒度の記述** — 更新されない設計ドキュメントは「間違った地図」になります
 
@@ -92,11 +92,12 @@ Issue 番号を渡されたら、その Issue を設計文書に落とし込み�
 
 ## PRで確認する
 
-設計文書の作成・更新の依頼には、作業ブランチの作成、対象変更のコミット、push、PR作成・本文更新までを含みます。操作ごとの許可や、設計内容の事前承認を会話で求めず、レビューできる PRにして URLを提示します。マージはユーザーの判断とします。
+設計文書の作成・更新の依頼には、作業ブランチの作成、対象変更のコミット、push、PR作成・本文更新、未決事項への質問コメントの投稿までを含みます。操作ごとの許可や、設計内容の事前承認を会話で求めず、レビューできる PRにして URLを提示します。マージはユーザーの判断とします。
 
 - 既存の作業ブランチや PRがあれば再利用し、今回の対象変更だけをコミットする。実装など別の作業の一部として呼ばれた場合は、その作業のブランチ・PRに含め、別PRや途中のコミット・pushを作らず、呼び出した作業の完了手順に戻る。
 - PRの起票方法と本文は、対象リポジトリの規約・指定された PRテンプレートに従う。
-- 未決事項、変更案、文書とコードの食い違い、未確認の内容を PR本文に残す。判断待ちがあっても PR作成前に止まらず、必要なら Draft にする。
+- 未決事項、変更案、文書とコードの食い違い、未確認の内容を PR本文に残す。判断待ちがあっても PR作成前に止まらず、仮案の採否への回答が必要なら Draft にする。回答を反映して対象の設計を整え、整合を確認するまで Draft を維持する。実装作業の一部なら、設計・実装と必要な検証が整うまで維持する。
+- 仮案の採否を問う質問は、PR作成・更新後に `gh pr comment <PR番号> --body-file <一時ファイル>` で別途投稿する。対象の節、仮に採用した案、理由、入力と期待結果の例、主要な代替案と影響を示し、「この案でよいか、別案ならどれか」を答えられる問いにする。実装作業の一部なら、その実装PRへの質問にまとめる。既存の質問と回答を確認し、同じ質問を繰り返さず、新たな判断を求めるときだけ新規コメントを投稿する。
 - 設計だけで Issue は完了しないため、関連Issueは `Closes #<番号>` ではなく `Refs #<番号>` とする。Issueが指定されていなければ、その確認だけを理由に止まらず、番号なしで PRを作る。
 
 ## 既存ファイルの扱い
