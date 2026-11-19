@@ -18,7 +18,6 @@
 
 | スキル | 説明 |
 | :--- | :--- |
-| **create-pullrequest** | `gh` コマンドとneko3cs/.githubの最新のPRテンプレートを使って、実際の変更内容に基づきPull Requestを作成します。Issueが完了するPRだけ `Closes`、設計PRなど途中の段階は `Refs` と書き分けます。既定ブランチ上の変更からは、ブランチとコミットを作ってPRにします。仮案の採否は本文とは別にPRコメントで具体的に質問します。 |
 | **dotnet-scripting** | C# file-based apps と `dotnet run -` を使い、.NET でワンライナーや小さなデータ処理スクリプトを実行する方法を案内します。 |
 | **hello-world** | グローバルスキルの構造を示すための基本的なサンプルです。 |
 | **python-scripting** | `uv` を使って Python スクリプトを実行し、外部依存関係はインライン依存関係で宣言する運用を案内します。 |
