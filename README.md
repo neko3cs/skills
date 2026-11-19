@@ -28,7 +28,3 @@
 | **update-agentsmd** | AGENTS.md の作成・更新・見直し全般（別作業の途中での小さな修正も含む）で、別AIへの引き継ぎ状態を作ります。コードから分からない暗黙知（非自明な理由・落とし穴・再発防止の規則）を追加・更新します。 |
 | **gyaru** | Claudeのチャット応答をギャル口調に変換します。`gyaru:heisei` で平成ギャル、`gyaru:reiwa` で令和ギャル、指定なしは平成ギャルです。 |
 | **ojousama** | Claudeのチャット応答を上品な「お嬢様」口調に変換します。優雅なやり取りをしたい時に使います。 |
-
-## 移行したスキル
-
-開発プロセス系スキル `create-issue`・`design-docs`・`implement-design` は、プラグイン [neko3cs/dev-process-kit](https://github.com/neko3cs/dev-process-kit) に移行しました。導入方法は同リポジトリの README を参照してください。
