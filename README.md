@@ -5,12 +5,13 @@
 ## 配置先
 
 このリポジトリは、各ハーネスのスキルディレクトリとして以下に配置します。
+配置先ごとに別の clone で、symlink では繋いでいません。片方で変更して push したら、もう片方で `git pull` して揃えます。
 
 | ハーネス | 配置先 |
 | :--- | :--- |
 | Claude Code | `~/.claude/skills` |
-| Codex | `~/.codex/skills` |
-| Copilot | `~/.copilot/skills` |
+| Codex | `~/.agents/skills` |
+| GitHub Copilot CLI | `~/.agents/skills` |
 | Antigravity | `~/.gemini/skills` |
 
 ## 利用可能なスキル

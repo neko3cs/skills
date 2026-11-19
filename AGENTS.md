@@ -2,7 +2,12 @@
 
 ## What This Repo Is
 
-The working tree **is** `~/.claude/skills`. A save goes live across every harness immediately — before any commit, branch, or PR. Treat saving here as deploying.
+This machine has two clones of this repo, with no symlink between them:
+
+- `~/.claude/skills` — read by Claude Code. A save goes live in Claude Code immediately — before any commit, branch, or PR — and so does a branch switch. Treat saving here as deploying.
+- `~/.agents/skills` — read by Codex and GitHub Copilot CLI. A change reaches them only after it is pushed and pulled here with `git pull`.
+
+Change one clone, push, then `git pull` in the other to bring them back in line.
 
 Every change goes through a branch and a pull request. `main` is protected on GitHub, so direct pushes are rejected.
 
