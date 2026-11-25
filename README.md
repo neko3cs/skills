@@ -57,18 +57,6 @@ agy plugin install https://github.com/neko3cs/skills
 npx skills add neko3cs/skills -g
 ```
 
-## 直接 `git clone` 運用からの移行手順
-
-以前のように各ハーネスのスキルディレクトリへ本リポジトリを直接 `git clone` していた場合は、旧 clone を削除（必要に応じて未コミット変更を退避）したうえで、上記のインストール手順へ切り替えます。
-
-1. 旧 clone を削除する（該当するもののみ）
-   ```bash
-   rm -rf ~/.claude/skills
-   rm -rf ~/.agents/skills
-   rm -rf ~/.gemini/config/skills
-   ```
-2. 上記「インストール方法」から、使用している各ハーネスの手順で再インストールする。
-
 ## 利用可能なスキル
 
 | スキル | 説明 |
