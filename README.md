@@ -1,18 +1,61 @@
 # neko3cs Agent Skills
 
-各エージェントハーネスで使用する共通スキルです。
+各エージェントハーネスで使用する共通スキルを、プラグインマーケットプレースおよび `npx skills` 互換形式で配信するリポジトリです。
 
-## 配置先
+## インストール方法
 
-このリポジトリは、各ハーネスのスキルディレクトリとして以下に配置します。
-配置先ごとに別の clone で、symlink では繋いでいません。片方で変更して push したら、もう片方で `git pull` して揃えます。
+### Claude Code
 
-| ハーネス | 配置先 |
-| :--- | :--- |
-| Claude Code | `~/.claude/skills` |
-| Codex | `~/.agents/skills` |
-| GitHub Copilot CLI | `~/.agents/skills` |
-| Antigravity | `~/.gemini/config/skills` |
+```text
+/plugin marketplace add neko3cs/skills
+/plugin install skills@neko3cs
+```
+
+Claude Code 2.1.275 以降では 1 ステップでも導入できます。
+
+```text
+/plugin install skills --marketplace neko3cs/skills
+```
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin marketplace add neko3cs/skills
+copilot plugin install skills@neko3cs
+```
+
+### Codex
+
+```bash
+codex plugin marketplace add neko3cs/skills
+codex plugin add skills@neko3cs
+```
+
+### Antigravity
+
+プラグインとして導入する場合：
+
+```bash
+agy plugin install https://github.com/neko3cs/skills
+```
+
+`npx skills` で入れた外部スキルも含めて `~/.agents/skills` に一元化したい場合は、`npx skills add neko3cs/skills -g` を実行したうえで、`~/.gemini/config/skills.json` に以下を記述します。
+
+```json
+{
+  "entries": [
+    { "path": "~/.agents/skills" }
+  ]
+}
+```
+
+### 汎用（`npx skills`）
+
+プラグイン非対応環境や、個別スキルのみを導入したい場合は `npx skills` を使用します。
+
+```bash
+npx skills add neko3cs/skills -g
+```
 
 ## 利用可能なスキル
 

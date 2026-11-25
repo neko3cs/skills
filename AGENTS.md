@@ -2,16 +2,24 @@
 
 ## What This Repo Is
 
-This machine has two clones of this repo, with no symlink between them:
+This repository distributes personal agent skills as a single-plugin marketplace (`skills@neko3cs`) and an `npx skills`-compatible repository across Claude Code, GitHub Copilot CLI, Codex, and Antigravity.
 
-- `~/.claude/skills` — read by Claude Code. A save goes live in Claude Code immediately — before any commit, branch, or PR — and so does a branch switch. Treat saving here as deploying.
-- `~/.agents/skills` — read by Codex and GitHub Copilot CLI. A change reaches them only after it is pushed and pulled here with `git pull`.
+Development follows a standard Git workflow: work in a regular local clone on a feature branch, open a pull request, merge into `main`, and update the installed plugin or skills in each harness. `main` is protected on GitHub, so direct pushes are rejected.
 
-Change one clone, push, then `git pull` in the other to bring them back in line.
+There is no build, no test suite, and no CI. When changing manifests or skill layouts, validate locally with `claude plugin validate .` and `agy plugin validate .`.
 
-Every change goes through a branch and a pull request. `main` is protected on GitHub, so direct pushes are rejected.
+## Repository Layout & Manifests
 
-There is no build, no test suite, and no CI. Nothing to run.
+Place every skill at `skills/<skill-name>/SKILL.md`. Both plugin manifests and `npx skills` auto-discover skills from `skills/`.
+
+Harness manifests live at:
+
+- `.claude-plugin/marketplace.json` & `.claude-plugin/plugin.json` — Claude Code
+- `.github/plugin/marketplace.json` — GitHub Copilot CLI
+- `.agents/plugins/marketplace.json` & `.codex-plugin/plugin.json` — Codex
+- `plugin.json` — Antigravity
+
+Adding, removing, or editing skills under `skills/` requires no manifest edits. When updating plugin metadata (`name`, `description`, `version`, etc.), keep all manifests in sync. Keep root `plugin.json` limited to Antigravity's supported top-level fields (`name`, `displayName`, `version`, `description`, `author`, `homepage`, `repository`, `logo`, `suggestedPrompts`, `disabled`) so `agy plugin validate` does not warn on unknown keys.
 
 ## Conventions
 
