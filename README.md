@@ -12,7 +12,7 @@
 | Claude Code | `~/.claude/skills` |
 | Codex | `~/.agents/skills` |
 | GitHub Copilot CLI | `~/.agents/skills` |
-| Antigravity | `~/.gemini/skills` |
+| Antigravity | `~/.gemini/config/skills` |
 
 ## 利用可能なスキル
 
