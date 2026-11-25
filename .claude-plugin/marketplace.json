@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "neko3cs",
+  "owner": {
+    "name": "neko3cs"
+  },
+  "metadata": {
+    "description": "Personal agent skills marketplace by neko3cs"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "Personal agent skills collection by neko3cs (testing, refactoring, scripting, AGENTS.md management, and persona skills).",
+      "version": "1.0.0",
+      "author": {
+        "name": "neko3cs"
+      },
+      "homepage": "https://github.com/neko3cs/skills",
+      "repository": "https://github.com/neko3cs/skills",
+      "license": "MIT"
+    }
+  ]
+}

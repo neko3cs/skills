@@ -1,0 +1,18 @@
+{
+  "name": "neko3cs",
+  "owner": {
+    "name": "neko3cs"
+  },
+  "metadata": {
+    "description": "Personal agent skills marketplace by neko3cs",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "description": "Personal agent skills collection by neko3cs (testing, refactoring, scripting, AGENTS.md management, and persona skills).",
+      "version": "1.0.0",
+      "source": "./"
+    }
+  ]
+}
