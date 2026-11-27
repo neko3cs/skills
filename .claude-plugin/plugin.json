@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "skills",
   "version": "1.0.0",
-  "description": "Personal agent skills collection by neko3cs (testing, refactoring, scripting, AGENTS.md management, and persona skills).",
+  "description": "Personal agent skills collection by neko3cs (refactoring, scripting, AGENTS.md management, and persona skills).",
   "author": {
     "name": "neko3cs",
     "url": "https://github.com/neko3cs"
